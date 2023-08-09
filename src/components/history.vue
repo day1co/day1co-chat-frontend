@@ -69,12 +69,19 @@ export default {
 
   background: var(--fcfc-background)
 
+  > svg
+    flex-shrink: 0
+
   &-label
     font-size: 0.6875em
     line-height: 1.45em
 
     color: var(--fcfc-foreground)
     opacity: 0.444444
+
+    overflow: hidden
+    white-space: nowrap
+    word-break: keep-all
 
     @include media('mobile')
       font-size: 0.75em
