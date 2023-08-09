@@ -58,6 +58,7 @@ export default {
     },
     async addHistory(question) {
       const payload = await api.history.put(this.context, question)
+      if(!payload) return
       this.history.push(payload)
     },
     async deleteHistory(id) {
