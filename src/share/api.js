@@ -48,10 +48,10 @@ const api = (function() {
       }
     },
     message: {
-      createEvent(context, question) {
+      createEvent(chatId, question) {
         const source = new SSE(endpoint + '/message', {
           headers,
-          payload: JSON.stringify({ question, context })
+          payload: JSON.stringify({ chatId, question })
         })
         return source
       },

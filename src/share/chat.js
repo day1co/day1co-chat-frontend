@@ -30,7 +30,7 @@ export default class Chat {
       incomplete: true
     }
 
-    const source = api.message.createEvent(this.context, question)
+    const source = api.message.createEvent(this.chatId, question)
 
     source.addEventListener('message', event => {
       currentChat.answer += ' ' + event.data
