@@ -6,7 +6,7 @@ import { Server } from 'socket.io'
 import bodyParser from 'body-parser'
 
 import history from './routes/history.mjs'
-import conversation from './routes/conversation.mjs'
+import chat from './routes/chat/index.mjs'
 
 const app = express()
 const server = http.createServer(app)
@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 ///
 
 app.use('/history', history)
-conversation(io)
+chat(io)
 
 ///
 
