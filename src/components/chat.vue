@@ -28,7 +28,7 @@
           </button>
         </li>
       </template>
-      <li class="fcfc-chat-open-qna theirs" v-if="!lastMessage?.incomplete && qnaLink">
+      <li class="fcfc-chat-open-qna theirs" v-if="!chat.loading && !lastMessage?.incomplete && qnaLink">
         <p class="label">
           더 궁금한 것이 있다면, 질의응답 게시판에서 질문해 보세요!
         </p>
@@ -194,7 +194,9 @@ export default {
       > a
         font-size: 0.875em
 
-
+  &-history-loading
+    text-align: center
+    padding-bottom: 1.5em
   &-loading
     width: 1.5em
     height: 1.375em

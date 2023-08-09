@@ -19,8 +19,12 @@ export default class Chat {
 
   async load() {
     const payload = await api.history.get(this.chatId)
+
     this.title = payload.title
-    this.history.push(...payload.history.map(h => ({ ...h, feedback: h.feedback ?? null })))
+    this.history.push(...payload.history.map(h => ({
+      ...h,
+      feedback: h.feedback ?? null
+    })))
     this.loading = false
   }
 
@@ -33,6 +37,7 @@ export default class Chat {
       ts: Date.now(),
       incomplete: true
     }
+    this.history.push(currentChat)
 
     switch(transport) {
       case 'sse':
@@ -48,16 +53,12 @@ export default class Chat {
         })
 
         source.stream()
-
-        this.history.push(currentChat)
         break
 
       case 'xhr':
       default:
         const payload = await api.message.ask(this.chatId, question)
         const { response, messageId } = payload
-
-        this.history.push(currentChat)
 
         await mimicReply(response, word => {
           currentChat.answer += ' ' + word

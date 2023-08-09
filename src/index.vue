@@ -102,6 +102,8 @@ export default {
     async listChat() {
       const chats = await api.history.list(this.context)
       for(const chat of chats) {
+        if(this.chats[chat.chatId]?.loading)
+          continue
         this.$set(this.chats, chat.chatId, new Chat(chat))
       }
     },
@@ -116,6 +118,11 @@ export default {
     async ask(question) {
       if(!this.currentChat) {
         const chat = new Chat()
+        this.navigate('chat', {
+          chatId: null,
+          question
+        }, true)
+
         const chatId = await chat.init(this.context)
 
         this.$set(this.chats, chatId, chat)
