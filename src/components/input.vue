@@ -50,12 +50,13 @@ export default {
       }
     },
     send(e) {
-      console.log(e)
-      if(!e.ctrlKey && !e.metaKey)
+      if(e.key && !e.ctrlKey && !e.metaKey)
         return
       this.$emit('submit', this.value)
-      this.precompositiedValue = ''
-      this.value = ''
+      this.$nextTick(() => {
+        this.precompositiedValue = ''
+        this.value = ''
+      })
     }
   }
 }
