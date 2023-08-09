@@ -87,12 +87,10 @@ export default {
     options: {
       qna: null,
       endpoint: null,
-      token: null,
+      headers: {},
       transport: 'xhr'
     },
-    context: {
-      courseId: 200
-    },
+    context: {},
     chats: {},
     scrollTop: 0,
     scrollBottom: 0,
@@ -199,8 +197,8 @@ export default {
       handler(to) {
         if(to?.endpoint)
           api.setEndpoint(to.endpoint)
-        if(to?.token)
-          api.setToken(to.token)
+        if(to?.headers)
+          api.setHeaders(to.headers)
       },
       deep: true
     },
@@ -218,7 +216,7 @@ export default {
   },
   mounted() {
     api.setEndpoint(this.options?.endpoint)
-    api.setToken(this.options?.token)
+    api.setHeaders(this.options?.headers)
     this.listChat()
   }
 }

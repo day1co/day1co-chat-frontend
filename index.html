@@ -20,8 +20,12 @@ import FloatingChat from './src/index.js'
 globalThis.chat = new FloatingChat('#wrapper', {
   qna: 'aaaaa',
   endpoint: '/.api',
-  token: 'asdf'
+  headers: {
+    Authorization: 'bearer asdf'
+  }
 })
+
+globalThis.chat.setContext({ courseId: 200 })
 
 document.getElementById('open').addEventListener('click', () => {
   globalThis.chat.toggle()

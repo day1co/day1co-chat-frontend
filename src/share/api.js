@@ -1,12 +1,12 @@
 import { SSE } from 'sse.js'
 
 const AVAILABLE_TRANSPORT = new Set(['xhr', 'sse'])
-
+const DEFAULT_HEADERS = {
+  'Content-Type': 'application/json'
+}
 const api = (function() {
   let endpoint = '/.ai'
-  let headers = {
-    'Content-Type': 'application/json'
-  }
+  let headers = DEFAULT_HEADERS
 
   function wrappedFetch(uri, options = {}) {
     let _options = { ...options, headers }
@@ -23,11 +23,11 @@ const api = (function() {
     setEndpoint(_endpoint) {
       endpoint = _endpoint ?? endpoint
     },
-    setToken(token) {
-      if(token)
-        headers.Authorization = `bearer ${token}`
-      else
-        delete headers.Authorization
+    setHeaders(headers = {}) {
+      headers = {
+        ...DEFAULT_HEADERS,
+        ...headers
+      }
     },
     history: {
       list(context) {
