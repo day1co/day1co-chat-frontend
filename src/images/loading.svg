@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 22">
+  <defs>
+    <style>
+@keyframes anim {
+  0% { fill: #aaa }
+  25% { fill: #222 }
+  50% { fill: #aaa }
+}
+circle {
+  fill: #aaa;
+  animation: anim 1.5s infinite;
+}
+    </style>
+  </defs>
+  <circle style="animation-delay: 0ms" cx="6" cy="11" r="2" />
+  <circle style="animation-delay: 400ms" cx="12" cy="11" r="2" />
+  <circle style="animation-delay: 800ms" cx="18" cy="11" r="2" />
+</svg>

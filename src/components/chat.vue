@@ -6,6 +6,7 @@
         :key="index"
         :class="[ 'fcfc-chat-message', chat.side ]">
         {{ chat.content }}
+        <img v-if="chat.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
       </li>
     </ul>
   </div>
@@ -33,10 +34,6 @@ export default {
     padding: 1.5rem 0 0 0
 
   &-message
-    display: flex
-    flex-direction: row
-    justify-content: flex-start
-
     font-size: 0.8125rem
     line-height: 1.375rem
 
@@ -47,7 +44,7 @@ export default {
     background-repeat: no-repeat
 
     &.ours
-      flex-direction: row-reverse
+      text-align: right
       padding-right: 3rem
 
       background-image: url('../images/profile-ours.svg')
@@ -59,5 +56,10 @@ export default {
 
       background-image: url('../images/profile-theirs.svg')
       background-position-x: 1rem
+
+  &-loading
+    width: 1.5rem
+    height: 1.375rem
+    vertical-align: top
 
 </style>
