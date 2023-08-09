@@ -38,7 +38,7 @@ export default io => {
           response,
           incomplete: words.length > 0
         })
-      }, 200)
+      }, 100)
     })
   })
 }
