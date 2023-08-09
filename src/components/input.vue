@@ -118,8 +118,11 @@ export default {
       margin: 0
       border-radius: 1.5rem
 
-      &:focus
-        outline: none
+      transition: box-shadow 200ms ease
+
+    > textarea
+      &:focus, &:focus-visible
+        outline: none !important
         box-shadow: 0 0 0 1px #444 inset
 
 

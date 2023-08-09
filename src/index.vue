@@ -210,7 +210,11 @@ export default {
 
   font-family: Pretendard, sans-serif
 
-  background: #200
+  background-color: #000
+  background-image: url('./images/header.svg')
+  background-size: contain
+  background-position: top
+
   box-shadow: 0 0.75rem 1rem rgba(0, 0, 0, 0.2)
 
   overflow: hidden

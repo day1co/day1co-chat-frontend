@@ -34,9 +34,6 @@ export default {
   border-start-start-radius: inherit
   border-start-end-radius: inherit
 
-  background-image: url('../images/header.svg')
-  background-size: cover
-
   &-line
     margin: 0
 
