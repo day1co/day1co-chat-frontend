@@ -134,7 +134,7 @@ export default {
         this.lastSeen = Date.now()
     },
     scrollToBottom(instant = false) {
-      this.$refs.container?.lastChild?.scrollIntoView({
+      this.$refs.container?.lastChild?.scrollIntoView?.({
         behavior: instant? 'instant' : 'smooth',
         block: 'end',
         inline: 'nearest'

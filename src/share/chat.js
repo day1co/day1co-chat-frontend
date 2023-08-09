@@ -18,7 +18,7 @@ export default class Chat {
   async load() {
     const payload = await api.history.get(this.chatid)
     this.title = payload.title
-    this.history.push(...payload.history)
+    this.history.push(...payload.history.map(h => ({ ...h, feedback: h.feedback ?? null })))
     this.loading = false
   }
 

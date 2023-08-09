@@ -57,7 +57,11 @@ app.put('/', (req, res) => {
 
   const chatid = 1 + Math.max(...Object.keys(history)) ?? 0
 
-  history[chatid] = { context, history: [] }
+  history[chatid] = {
+    context,
+    title: '제목 없는 대화',
+    history: []
+  }
 
   res.json({ chatid, ...history[chatid] })
 })

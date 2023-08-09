@@ -10,7 +10,7 @@ app.post('/', (req, res) => {
 
   const question = payload.question
   const chatid = payload.chatid
-  const msgid = Date.now()
+  const msgid = Date.now().toString()
 
   console.log(payload)
 
@@ -29,6 +29,13 @@ app.post('/', (req, res) => {
         : i? [...p, l[i - 1] + c]
            : [c],
     [])
+
+  history[chatid]?.history.push({
+    msgid,
+    question,
+    answer: match.response,
+    feedback: null
+  })
 
   const timer = setInterval(() => {
     const word = words.shift()?.replaceAll(/[\r\n\t\v]/g, ' ')
