@@ -5,13 +5,15 @@ export default defineConfig({
   plugins: [
     vue()
   ],
+  build: {
+    lib: {
+      entry: './src/index.js',
+      formats: ['es', 'cjs'],
+    }
+  },
   server: {
     port: 8011,
     proxy: {
-      '/socket.io': {
-        target: `ws://127.0.0.1:8012`,
-        ws: true
-      },
       '/.api': {
         target: `http://127.0.0.1:8012`,
         rewrite: (path) => path.replace(/^\/\.api/, '')

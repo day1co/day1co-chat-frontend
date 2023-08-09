@@ -145,12 +145,11 @@ export default {
       this.route.path = to
       this.route.param = param
 
-      if(to === 'chat' && 'chatid' in param) {
+      if(to === 'chat' && 'chatid' in param)
         this.currentChat.load().then(() => this.scrollToBottom())
-      }
-      if(to === '') {
+
+      if(to === '')
         this.listChat()
-      }
     },
     ///
     setOption(key, value) {
@@ -219,7 +218,7 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   position: relative
 
   width: 21.25rem
-  height: min(calc(100vh - 4rem), 37.5rem)
+  height: 100%
 
   border-radius: 1.5rem
 

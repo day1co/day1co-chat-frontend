@@ -10,9 +10,14 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/classroom.mjs",
+      "require": "./dist/classroom.js"
+    }
+  },
   "scripts": {
     "start": "vite",
-    "prepublishOnly": "vite build",
     "build": "vite build",
     "clean": "rimraf ./dist ./node_modules"
   },
