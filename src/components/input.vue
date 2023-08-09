@@ -9,10 +9,11 @@
         <textarea
           rows="1"
           v-model="value"
-          @keyup.ctrl.enter="send"
+          @keydown.enter.prevent="send"
           @input="update"
           @compositionupdate="update"
-          placeholder="질문을 입력해보세요…">
+          :disabled="disabled"
+          :placeholder="disabled? '잠시만요…' : '질문을 입력해보세요…'">
         </textarea>
       </label>
       <button class="fcfc-input-send" @click="send">
@@ -36,17 +37,18 @@ export default {
   }),
   methods: {
     update(e) {
-      this.precompositiedValue = e.target.value
+      this.precompositiedValue = this.value = e.target.value
 
       if(e instanceof CompositionEvent) {
         if(window.getSelection().type === 'Caret') {
           this.precompositiedValue += e.data
         }
       }
-
-      this.value = e.target.value
     },
-    send() {
+    send(e) {
+      console.log(e)
+      if(!e.ctrlKey && !e.metaKey)
+        return
       this.$emit('submit', this.value)
       this.precompositiedValue = this.value = ''
     }
