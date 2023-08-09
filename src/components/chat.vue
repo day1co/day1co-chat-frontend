@@ -22,8 +22,8 @@
             ]"
             :title="label"
             @click="feedback(message.msgid, _feedback)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
-              <path fill="currentColor" d="M11.3 5.2c.5-.8 1.8-.5 1.8.5l.2 3.6h5a1.4 1.4 0 0 1 1.4 1.7l-2 7.2a1.4 1.4 0 0 1-1.3 1H7.5v-8l3.8-6Zm-4.8 6H5.2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h1.3v-8Z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+              <path stroke-width="1" d="M9.2 20H7.3v-8.5l4.5-7.3.4-.3c.2 0 .5.2.6.5l.1 4.6c0 .3.3.5.5.5h6.2a.9.9 0 0 1 .9 1.1L18 19.4c-.1.4-.5.7-.9.7h-8ZM4 20a.5.5 0 0 1-.5-.4v-7.3c0-.3.2-.5.5-.5H5v8.3H4Z" />
             </svg>
           </button>
         </li>
@@ -128,9 +128,11 @@ export default {
     padding: 0 1em 1.25em 1em
 
     &-button
-      width: 1.5em
-      height: 1.5em
-      padding: 0
+      width: 2em
+      height: 2em
+
+      margin: -0.25em
+      padding: 0.25em
 
       color: #aaa
 
@@ -142,13 +144,22 @@ export default {
       &:active
         background-color: #0002
 
-      &.active
-        color: #ed234b
+      > svg
+        fill: #aaa
+        stroke: #aaa
+
+      &.active > svg
+        fill: #000
+        stroke: #000
 
       &.like
         //
       &.dislike
         transform: rotate(180deg)
+
+    &:has(.active) &-button:not(.active) > svg
+      fill: #E6E8EB
+      stroke: #C7C7C7
 
   &-open-qna
     border-top: 1px solid var(--fcfc-chat-section-border)
