@@ -75,6 +75,8 @@ export default {
   box-shadow: 0 -1px 0 #f2f2f2
   background: white
 
+  z-index: 2
+
   &-wrap
     position: relative
 

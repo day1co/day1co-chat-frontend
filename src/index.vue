@@ -20,6 +20,12 @@
       <fcfc-input
         @submit="ask"
         :disabled="waiting" />
+      <button class="fcfc-scroll-to-bottom" v-if="scrollRecommended || true">
+        <svg viewBox="0 0 16 16">
+          <path d="M8 2v12M2 8l6 6l6-6" fill="none" stroke="white" />
+        </svg>
+        새 메시지
+      </button>
     </div>
     <div class="fcfc-dim" v-show="opened"></div>
   </div>
@@ -186,6 +192,35 @@ export default {
 
 .fcfc-tr-fade-enter, .fcfc-tr-fade-leave-to
   opacity: 0
-  margin-top: -12rem
+
+  &.fcfc-header
+    margin-top: -12rem !important
+
+.fcfc-tr-fade-enter-to
+  opacity: 1
+
+.fcfc-scroll-to-bottom
+  position: absolute
+  right: 0
+  bottom: 6.25rem
+  left: 0
+
+  display: inline-block
+  width: 8rem
+
+  margin: 0 auto
+  padding: 0.5rem
+  border-radius: 1rem
+
+  line-height: 1rem
+
+  background: black
+  color: white
+
+  > svg
+    width: 1rem
+    height: 1rem
+
+    vertical-align: top
 
 </style>
