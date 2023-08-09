@@ -192,7 +192,7 @@ export default {
         if(to?.endpoint)
           api.setEndpoint(to.endpoint)
         if(to?.token)
-          api.setKey(to.token)
+          api.setToken(to.token)
       },
       deep: true
     },
