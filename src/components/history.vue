@@ -1,18 +1,18 @@
 <template>
   <section class="fcfc-history-empty" v-if="empty">
+    <!--
     <p class="fcfc-howto-title">
       이렇게 활용할 수 있어요!
     </p>
+    -->
     <figure class="fcfc-howto-image">
       <img src="../images/howto-bg.jpg" />
       <figcaption>
-        얼럴럴러
+        AI ChatBot
       </figcaption>
     </figure>
     <p class="fcfc-howto-text">
-      디자인 도움 텍스트를 메꾸기 위한 연습텍스트입니다.
-      <br />
-      송고하지 마시고 킬 하십시요.
+      현재 시범 운영 중입니다!
     </p>
   </section>
   <ul class="fcfc-list fcfc-list-history" v-else>
