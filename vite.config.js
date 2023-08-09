@@ -6,6 +6,12 @@ export default defineConfig({
     vue()
   ],
   server: {
-    port: 8011
+    port: 8011,
+    proxy: {
+      '/.api': {
+        target: `http://127.0.0.1:8012`,
+        rewrite: (path) => path.replace(/^\/\.api/, '')
+      }
+    }
   }
 })
