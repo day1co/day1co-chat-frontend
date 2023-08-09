@@ -237,6 +237,11 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
   z-index: 100000
 
+  pointer-events: none
+
+  > *
+    pointer-events: auto
+
   @include media('mobile')
     width: 100%
 

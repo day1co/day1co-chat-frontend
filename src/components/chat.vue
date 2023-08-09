@@ -177,7 +177,6 @@ export default {
       font-size: 0.6875em
       margin: 0 0 0.5454em 0
 
-
     > a
       font-size: 0.8125em
       line-height: 1.85em
@@ -190,7 +189,10 @@ export default {
         vertical-align: -0.25em
 
     @include media('mobile')
-      font-size: 1.2em
+      > p
+        font-size: 0.8em
+      > a
+        font-size: 0.875em
 
 
   &-loading
