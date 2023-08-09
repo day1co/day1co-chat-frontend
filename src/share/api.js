@@ -30,7 +30,7 @@ const api = (function() {
       },
       create(context) {
         return fetch(endpoint + '/history', {
-          method: 'PUT',
+          method: 'POST',
           headers,
           body: JSON.stringify({ context })
         }).then(d => {

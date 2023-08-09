@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 })
 
 // Create new chat session
-app.put('/', (req, res) => {
+app.post('/', (req, res) => {
   const { question, context } = req.body
   // const duplicated = searchByContext(context).find(entry => question === entry.question)
 
