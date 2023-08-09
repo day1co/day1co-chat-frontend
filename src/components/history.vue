@@ -63,7 +63,7 @@ export default {
 
 .fcfc-list
   margin: 0
-  padding: 1em 1em
+  padding: 1.5em 1em
 
   list-style: none
 
@@ -75,6 +75,10 @@ export default {
 
     color: var(--fcfc-foreground)
     opacity: 0.444444
+
+    @include media('mobile')
+      font-size: 0.75em
+      line-height: 1.33em
 
   &-item
     @include clickable
@@ -90,6 +94,12 @@ export default {
     > label
       font-size: 0.8125em
       line-height: 1.85em
+
+      cursor: inherit
+
+      @include media('mobile')
+        font-size: 1em
+        line-height: 1.5em
 
   &-flat > &-item
     background: #f2f2f2

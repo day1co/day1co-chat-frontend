@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fcfc-root"
+    class="fcfc-root theme-zerobase"
     :style="{ '--y': scrollTop }">
     <div :class="[
       'fcfc-window',
@@ -237,6 +237,9 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
   z-index: 100000
 
+  @include media('mobile')
+    width: 100%
+
 .fcfc-window
   display: flex
   flex-direction: column
@@ -261,6 +264,12 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
   overflow: hidden
   z-index: 2
+
+  @include media('mobile')
+    width: 100%
+    margin: 0 0 -5.5em 0
+    border-bottom-right-radius: 0
+    border-bottom-left-radius: 0
 
 .fcfc-route-main::v-deep
   > .fcfc-nav

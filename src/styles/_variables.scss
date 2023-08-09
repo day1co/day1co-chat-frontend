@@ -1,0 +1,25 @@
+
+@mixin unselectable {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+@mixin clickable {
+  @include unselectable;
+  cursor: pointer;
+}
+
+$breakpoint: 480px;
+
+$__map-range-to-mediaquery: (
+  'mobile': unquote('max-width: #{$breakpoint}'),
+  'desktop': unquote('min-width: #{$breakpoint + 1px}'),
+  'dark': 'prefers-color-scheme: dark',
+);
+
+@mixin media($condition) {
+  @media (map-get($__map-range-to-mediaquery, $condition)) {
+    @content;
+  }
+}

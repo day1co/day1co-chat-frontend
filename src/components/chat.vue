@@ -79,6 +79,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import ../styles/variables
 
 .fcfc-chat
   min-height: 100%
@@ -99,7 +100,6 @@ export default {
       background-color: var(--fcfc-chat-background-theirs)
 
   &-message
-
     padding: 1.25em 1em
 
     line-height: 1.5em
@@ -111,6 +111,10 @@ export default {
     > span
       font-size: 0.875em
 
+      @include media('mobile')
+        font-size: 1em
+        line-height: 1.75em
+
     &.ours
       background-image: url('../images/profile-ours.svg')
       background-position-x: calc(100% - 1em)
@@ -118,6 +122,9 @@ export default {
     &.theirs
       background-image: var(--fcfc-theme-chatbot-icon)
       background-position-x: 1em
+
+    @include media('mobile')
+      padding-top: 1.125em
 
   &-feedback
     display: flex
@@ -170,6 +177,7 @@ export default {
       font-size: 0.6875em
       margin: 0 0 0.5454em 0
 
+
     > a
       font-size: 0.8125em
       line-height: 1.85em
@@ -180,6 +188,9 @@ export default {
       > svg
         width: 1.23em
         vertical-align: -0.25em
+
+    @include media('mobile')
+      font-size: 1.2em
 
 
   &-loading

@@ -65,8 +65,8 @@ export default {
 </script>
 
 <style lang="sass">
-
 @use 'sass:math'
+@import ../styles/variables
 
 .fcfc-input
   position: sticky
@@ -123,6 +123,11 @@ export default {
 
       transition: box-shadow 200ms ease
 
+      @include media('mobile')
+        font-size: 1em
+        padding: 0.75em 3.25em 0.75em 1em
+        max-height: 6em
+
     > textarea
 
       &:focus, &:focus-visible
@@ -140,7 +145,7 @@ export default {
     bottom: 0.5em
 
     padding: 0.25em
-    border-radius: 1em
+    border-radius: 50%
 
     background: var(--fcfc-input-button-active) !important
 
@@ -153,5 +158,8 @@ export default {
 
     &.disabled
       background: var(--fcfc-input-button-inactive) !important
+
+    @include media('mobile')
+      padding: 0.375em
 
 </style>
