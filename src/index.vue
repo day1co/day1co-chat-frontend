@@ -297,6 +297,7 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   max-height: calc(100% - 5.5em)
   overflow-x: hidden
   overflow-y: auto
+  overscroll-behavior: contain
 
   flex-grow: 1
 
