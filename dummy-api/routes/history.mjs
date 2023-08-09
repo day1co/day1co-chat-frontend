@@ -55,7 +55,7 @@ app.put('/', (req, res) => {
   //   return
   // }
 
-  const chatid = 1 + Math.max(...Object.keys(history))
+  const chatid = 1 + Math.max(...Object.keys(history)) ?? 0
 
   history[chatid] = { context, history: [] }
 
