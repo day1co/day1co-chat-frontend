@@ -36,7 +36,8 @@ export default class Chat {
       currentChat.answer += ' ' + event.data
       currentChat.ts = Date.now()
     })
-    source.addEventListener('close', event => { // PLEASE IMPL THIS
+    source.addEventListener('close', event => {
+      currentChat.msgid = event.data
       currentChat.incomplete = false
     })
 
@@ -47,6 +48,16 @@ export default class Chat {
 
   delete() {
     return api.history.delete(this.chatid)
+  }
+
+  async feedback(msgid, feedback) {
+    const payload = await api.message.feedback(msgid, feedback)
+    const index = this.history.findIndex(message.msgid === msgid)
+    if(index < 0)
+      throw new ReferenceError(`msgid ${msgid} couldn't found from history`)
+
+    this.history[index].feedback = payload.feedback
+    return payload.feedback
   }
 
   get waiting() {

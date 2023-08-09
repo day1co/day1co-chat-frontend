@@ -32,6 +32,13 @@ export default {
         payload: JSON.stringify({ question, context })
       })
       return source
+    },
+    feedback(msgid, feedback) {
+      return fetch('/.api/message/' + msgid, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedback })
+      }).then(d => d.json())
     }
   }
 }

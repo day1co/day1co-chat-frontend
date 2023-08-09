@@ -14,11 +14,14 @@
         </li>
         <li class="fcfc-chat-feedback theirs">
           <button
-            class="fcfc-chat-feedback-button like"
-            title="좋아요"></button>
-          <button
-            class="fcfc-chat-feedback-button dislike"
-            title="싫어요"></button>
+            v-for="[_feedback, label] of FEEDBACK"
+            :class="[
+              'fcfc-chat-feedback-button',
+              _feedback,
+              { active: message.feedback === _feedback }
+            ]"
+            :title="label"
+            @click="feedback(message.id, _feedback)"></button>
         </li>
       </template>
       <li class="fcfc-chat-open-qna theirs" v-if="!lastMessage?.incomplete">
@@ -49,6 +52,17 @@ import Chat from '../share/chat.js'
 export default {
   props: {
     chat: Chat
+  },
+  data: () => ({
+    FEEDBACK: [
+      [ 'like', '좋아요' ],
+      [ 'dislike', '싫어요' ]
+    ]
+  }),
+  methods: {
+    async feedback(msgid, feedback) {
+      this.chat.feedback(msgid, feedback)
+    }
   },
   computed: {
     lastMessage() {

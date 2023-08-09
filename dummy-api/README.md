@@ -9,7 +9,7 @@
   사실 `conversation`이라고 부르던데 너무 길어서 효율상 축약하여 부름
 * Context: 대화의 맥락. Object.  
   `courseId` 같은 게 여기로.
-* Message: 질문-대답의 쌍. `{ question, answer }`.  
+* Message: 질문-대답의 쌍. `{ question, answer[, feedback] }`.  
   API에 보니까 parentId도 있고 하던데 이게 어떤건지에 따라서 바뀔 가능성이…
 
 ## History

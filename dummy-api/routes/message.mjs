@@ -41,4 +41,27 @@ app.post('/', (req, res) => {
 
 })
 
+app.put('/:msgid', (req, res) => {
+  const msgid = req.params.msgid
+  const feedback = req.body.feedback
+
+  let chatid, index
+  for(const _chatid in history) {
+    const messages = history[_chatid]
+    const _index = messages.findIndex(_ => _.msgid === msgid)
+    if(_index >= 0) {
+      chatid = _chatid
+      index = _index
+      break
+    }
+  }
+  if(!found) {
+    res.status(404)
+    res.json(null)
+  }
+
+  history[chatid].history[index].feedback = feedback
+  res.json({ feedback })
+})
+
 export default app
