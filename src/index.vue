@@ -17,7 +17,9 @@
           />
         <fcfc-chat v-show="route === 'chat'" :chats="chats" />
       </main>
-      <fcfc-input @submit="ask" />
+      <fcfc-input
+        @submit="ask"
+        :disabled="waiting" />
     </div>
     <div class="fcfc-dim" v-show="opened"></div>
   </div>
@@ -49,7 +51,8 @@ export default {
       courseId: 200
     },
     history: [],
-    chats: []
+    chats: [],
+    lastTheirsRef: null
   }),
   methods: {
     async fetchHistory() {
@@ -84,6 +87,13 @@ export default {
 
       this.route = 'chat'
       this.chats.push({ side: 'ours', content: question })
+      this.lastTheirsRef = { side: 'theirs', content: '', incomplete: true }
+      this.chats.push(this.lastTheirsRef)
+    }
+  },
+  computed: {
+    waiting() {
+      return this.lastTheirsRef?.incomplete
     }
   },
   watch: {
