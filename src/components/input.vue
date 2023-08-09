@@ -9,7 +9,7 @@
         <textarea
           rows="1"
           v-model="value"
-          @keydown.enter.prevent="send"
+          @keydown.enter="send"
           @input="update"
           @compositionupdate="update"
           :disabled="disabled"
@@ -52,6 +52,7 @@ export default {
     send(e) {
       if(e.key && !e.ctrlKey && !e.metaKey)
         return
+      e.preventDefault()
       this.$emit('submit', this.value)
       this.$nextTick(() => {
         this.precompositiedValue = ''
@@ -101,8 +102,9 @@ export default {
     &::after, > textarea
       box-sizing: border-box
       width: 100%
-      height: 100%
       min-width: 1em
+      height: 100%
+      max-height: 6rem
       grid-area: 1 / 1
       font: inherit
 
