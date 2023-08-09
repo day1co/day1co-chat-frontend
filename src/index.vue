@@ -225,6 +225,7 @@ export default {
 
     > *:not(.fcfc-header-close)
       opacity: 0
+      pointer-events: none
 
   > .fcfc-content > .fcfc-header
     margin-top: -3.5rem
