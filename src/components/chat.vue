@@ -4,6 +4,7 @@
       <li class="fcfc-chat-history-loading" v-if="chat.status === 'loading'">
         <img class="fcfc-chat-loading" src="../images/loading.svg" />
       </li>
+
       <li class="fcfc-chat-error theirs" v-else-if="chat.status === 'error'">
         <span> 대화를 생성하지 못했습니다. </span>
         <button class="fcfc-chat-retry" @click="retry">
@@ -11,7 +12,7 @@
         </button>
       </li>
 
-      <template v-for="(message, index) in chat.history" v-else>
+      <template v-for="message in chat.history" v-else>
 
         <li class="fcfc-chat-message ours">
           <span>{{ message.question }}</span>
