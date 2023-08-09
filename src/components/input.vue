@@ -52,6 +52,8 @@ export default {
     send(e) {
       if(e.key && !e.ctrlKey && !e.metaKey)
         return
+      if(!this.value?.trim())
+        return
       e.preventDefault()
       this.$emit('submit', this.value)
       this.$nextTick(() => {
