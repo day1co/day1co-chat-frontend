@@ -20,7 +20,7 @@
 
         <li class="fcfc-chat-error theirs" v-if="message.status === 'error'">
           <span> 답변을 불러오지 못했습니다. </span>
-          <button class="fcfc-chat-retry" @click="retry(message.question)">
+          <button class="fcfc-chat-retry" @click="retry(message.messageId)">
             <span> 다시 시도 </span>
           </button>
         </li>
@@ -88,11 +88,11 @@ export default {
     ]
   }),
   methods: {
-    async retry() {
-      if(!this.chat.initiated)
-        this.$emit('retry')
+    async retry(messageId) {
+      if(messageId != null)
+        this.chat.retry(messageId)
       else
-        this.chat.retry()
+        this.$emit('retry')
     },
     async feedback(message, feedback) {
       if(!message.feedback)

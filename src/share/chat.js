@@ -41,7 +41,7 @@ export default class Chat {
   }
 
   prepare(question, override = {}) {
-    const currentChat = {
+    const message = {
       question,
       answer: '',
       messageId: null,
@@ -50,29 +50,29 @@ export default class Chat {
       status: 'loading',
       ...override
     }
-    this.history.push(currentChat)
-    return currentChat
+    this.history.push(message)
+    return message
   }
 
   async ask(question = null, transport = 'xhr') {
     if(question != null)
       this.prepare(question)
 
-    const currentChat = this.history[this.history.length - 1]
+    const message = this.history[this.history.length - 1]
 
     try {
       switch(transport) {
         case 'sse':
-          const source = api.message.createEvent(this.chatId, currentChat.question)
+          const source = api.message.createEvent(this.chatId, message.question)
           const promise = new Promise()
 
           source.addEventListener('message', event => {
-            currentChat.answer += ' ' + event.data
-            currentChat.ts = Date.now()
+            message.answer += ' ' + event.data
+            message.ts = Date.now()
           })
           source.addEventListener('close', event => {
-            currentChat.messageId = event.data
-            currentChat.status = ''
+            message.messageId = event.data
+            message.status = ''
             promise.resolve()
           })
 
@@ -81,30 +81,27 @@ export default class Chat {
 
         case 'xhr':
         default:
-          const payload = await api.message.ask(this.chatId, currentChat.question)
+          const payload = await api.message.ask(this.chatId, message.question)
           const { response, messageId } = payload
 
           await mimicReply(response, word => {
-            currentChat.answer += ' ' + word
+            message.answer += ' ' + word
           }, 50)
           // keep this to feedback button hidden
-          currentChat.messageId = messageId
-          currentChat.status = ''
+          message.messageId = messageId
+          message.status = ''
           break
       }
     } catch(e) {
-      currentChat.status = 'error'
+      message.status = 'error'
       throw e
     }
   }
 
-  retry() {
-    if(this.history.length) {
-      const lastQuestion = (this.history.pop()).question
-      return this.ask(lastQuestion)
-    } else {
-      // ??
-    }
+  retry(messageId) {
+    const index = this.history.findIndex(message => message.messageId === messageId)
+    const [ message ] = this.history.splice(index, 1)
+    return this.ask(message.question)
   }
 
   delete() {
