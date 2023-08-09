@@ -12,6 +12,7 @@ export default class Chat {
   async init(context) {
     const payload = await api.history.create(context)
     this.chatId = payload.chatId
+    this.loading = false
     return payload.chatId
   }
 
