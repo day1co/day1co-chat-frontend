@@ -53,7 +53,10 @@
     </div>
 
     <button class="fcfc-fab-toggle" @click.prevent="toggle">
-      AI챗봇
+      <svg v-if="opened" viewBox="0 0 24 16" class="fcfc-fab-toggle-close">
+        <path d="M4 4l8 8l8-8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <template v-else>AI챗봇</template>
     </button>
 
     <div class="fcfc-dim" v-show="opened" @click="close"></div>
@@ -349,5 +352,10 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   font-weight: 700
 
   z-index: 1
+
+  &-close
+    width: 1.5em
+    height: 1rem
+    vertical-align: top
 
 </style>
