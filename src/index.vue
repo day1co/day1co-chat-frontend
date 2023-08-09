@@ -83,7 +83,7 @@ export default {
       path: '',
       param: {}
     },
-    opened: true,
+    opened: false,
     options: {
       qna: null,
       endpoint: null,
