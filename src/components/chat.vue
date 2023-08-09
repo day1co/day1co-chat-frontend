@@ -101,13 +101,14 @@ export default {
 
     padding: 1.25em 1em
 
+    line-height: 1.5em
+
     background-position-y: 1.25em
     background-size: 1.5em
     background-repeat: no-repeat
 
     > span
       font-size: 0.875em
-      line-height: 1.7142em
 
     &.ours
       background-image: url('../images/profile-ours.svg')
@@ -151,10 +152,10 @@ export default {
   &-open-qna
     border-top: 1px solid #e6e8eB
     padding: 0.75em 1em 1.25em 1em
+    line-height: 1em
 
     > p
       font-size: 0.6875em
-      line-height: 1.4545em
       margin: 0 0 0.5454em 0
 
     > a

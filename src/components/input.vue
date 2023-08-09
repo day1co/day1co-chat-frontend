@@ -124,9 +124,13 @@ export default {
       transition: box-shadow 200ms ease
 
     > textarea
+
       &:focus, &:focus-visible
         outline: none !important
         box-shadow: 0 0 0 1px #444 inset
+
+      &::-webkit-input-placeholder
+        font-size: inherit
 
 
   &-send
