@@ -6,7 +6,7 @@
     ]" v-show="opened">
       <fcfc-nav />
       <main class="fcfc-content">
-        <transition>
+        <transition name="fcfc-tr-fade">
           <fcfc-header v-show="!route" />
         </transition>
         <fcfc-history
@@ -92,8 +92,12 @@ export default {
 
   overflow: hidden
 
-.fcfc-route-main::v-deep > .fcfc-content > .fcfc-header
-  margin-top: -3.5rem
+.fcfc-route-main::v-deep
+  > .fcfc-nav
+    background-color: transparent
+
+  > .fcfc-content > .fcfc-header
+    margin-top: -3.5rem
 
 .fcfc-content
   margin-top: 3.5rem
@@ -132,6 +136,12 @@ export default {
 
       background-image: url('./images/profile-theirs.svg')
       background-position-x: 1rem
+ 
+.fcfc-tr-fade-enter-active, .fcfc-tr-fade-leave-active
+  transition: opacity 250ms, margin-top 250ms
 
+.fcfc-tr-fade-enter, .fcfc-tr-fade-leave-to
+  opacity: 0
+  margin-top: -12rem
 
 </style>

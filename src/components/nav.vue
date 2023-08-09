@@ -37,6 +37,10 @@ export default {
 
   padding: 1rem
 
+  background-color: #000
+
+  transition: background-color 500ms linear
+
   z-index: 1
 
   > .fcfc-button
