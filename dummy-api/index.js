@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 const DELAY = process.env.DELAY ?? 0
 
 const _app = express()
+
 _app.use((req, res, next) => {
   if(DELAY)
     setTimeout(() => next(), DELAY)

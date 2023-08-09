@@ -1,5 +1,3 @@
-import fs from 'fs'
-
 import history from '../fixture/history.js'
 import knowledge from '../fixture/knowledge.js'
 
