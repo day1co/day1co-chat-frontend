@@ -1,6 +1,6 @@
 {
   "name": "@day1co/floating-chat",
-  "version": "0.1.0-pre4",
+  "version": "0.1.0-pre5",
   "description": "ready-to-go chat widget",
   "author": "day1co <dev_adm@day1company.co.kr>",
   "repository": {
@@ -13,12 +13,11 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/classroom.mjs",
-      "require": "./dist/classroom.js"
+      "import": "./dist/floating-chat.mjs",
+      "require": "./dist/floating-chat.js"
     },
-    "./dummy-api": {
-      "import": "./dummy-api/index.mjs"
-    }
+    "./style.css": "./dist/style.css",
+    "./dummy-api": "./dummy-api/index.mjs"
   },
   "scripts": {
     "start": "vite",

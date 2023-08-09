@@ -1,7 +1,6 @@
 import * as url from 'node:url'
 
 import express from 'express'
-import { Server } from 'socket.io'
 import bodyParser from 'body-parser'
 
 import history from './routes/history.mjs'
