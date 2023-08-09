@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title> floating-chat playground </title>
+    <style>
+    </style>
+  </head>
+  <body>
+    <button id="open">롯데마트 오픈</button>
+    <div id="wrapper"></div>
+    <script type="module">
+
+import FloatingChat from './src/index.js'
+
+globalThis.chat = new FloatingChat('#wrapper')
+
+document.getElementById('open').addEventListener('click', () => {
+  globalThis.chat.toggle()
+})
+
+    </script>
+  </body>
+</html>

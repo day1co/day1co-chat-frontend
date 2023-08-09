@@ -1,0 +1,27 @@
+{
+  "name": "@day1co/floating-chat",
+  "version": "0.1.0",
+  "description": "ready-to-go chat widget",
+  "author": "day1co <dev_adm@day1company.co.kr>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/day1co/day1co-chat-fe.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "vite",
+    "prepublishOnly": "vite build",
+    "build": "vite build",
+    "clean": "rimraf ./dist ./node_modules"
+  },
+  "dependencies": {
+    "vue": "^2.7.14"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "sass": "^1.60.0",
+    "vite": "^4.2.1"
+  }
+}

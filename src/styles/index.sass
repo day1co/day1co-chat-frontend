@@ -1,0 +1,19 @@
+@import variables
+@import list
+
+.fcfc-root *
+  box-sizing: border-box
+
+.fcfc-root button
+  @include unselectable
+
+  border: none
+  appearance: none
+  background: none
+
+  &:not([disabled])
+    @include clickable
+
+.fcfc-icon
+  width: 1.5rem
+  height: 1.5rem
