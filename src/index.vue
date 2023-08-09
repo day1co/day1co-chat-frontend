@@ -210,6 +210,7 @@ export default {
   },
   mounted() {
     api.setEndpoint(this.options?.endpoint)
+    api.setToken(this.options?.token)
     this.listChat()
   }
 }
