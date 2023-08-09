@@ -1,13 +1,15 @@
 <template>
   <div class="fcfc-chat">
     <ul class="fcfc-chat-list">
-      <li
-        v-for="(chat, index) in chats"
-        :key="index"
-        :class="[ 'fcfc-chat-message', chat.side ]">
-        {{ chat.content }}
-        <img v-if="chat.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
-      </li>
+      <template v-for="(chat, index) in history">
+        <li class="fcfc-chat-message ours">
+          {{ chat.question }}
+        </li>
+        <li class="fcfc-chat-message theirs">
+          {{ chat.answer }}
+          <img v-if="chat.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -16,7 +18,12 @@
 
 export default {
   props: {
-    chats: Array
+    chats: Object
+  },
+  computed: {
+    history() {
+      return this.chats?.history ?? []
+    }
   }
 }
 

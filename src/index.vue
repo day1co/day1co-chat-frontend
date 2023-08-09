@@ -2,25 +2,34 @@
   <div class="fcfc-root">
     <div :class="[
       'fcfc-window',
-      'fcfc-route-' + (route || 'main')
+      'fcfc-route-' + (route.path || 'main')
     ]" v-show="opened">
+
       <fcfc-nav />
+
       <main class="fcfc-content" ref="container" @scroll="updateScrollPosition">
         <transition name="fcfc-tr-fade">
-          <fcfc-header v-show="!route" />
+          <fcfc-header
+            v-show="!route.path"
+            :title="currentChat?.title ?? route.path? '새로운 질문' : 'AI챗봇'" />
         </transition>
         <fcfc-history
-          v-show="!route"
-          :history="history"
-          @submit="ask"
+          v-show="!route.path"
+          :history="chats"
+          @submit="openHistory"
           @delete="deleteHistory"
           />
-        <fcfc-chat v-show="route === 'chat'" :chats="chats" />
+        <fcfc-chat
+          v-show="route.path === 'chat'"
+          v-if="currentChat"
+          :chats="currentChat" />
       </main>
+
       <fcfc-input
         @submit="ask"
         :disabled="waiting" />
-      <transition name="fcfc-tr-fade" v-if="route === 'chat'">
+
+      <transition name="fcfc-tr-fade" v-if="route.path === 'chat'">
         <button
           class="fcfc-scroll-to-bottom"
           v-show="scrollRecommended"
@@ -37,8 +46,6 @@
 </template>
 
 <script>
-
-import { io } from 'socket.io-client'
 
 import FcfcNav from './components/nav.vue'
 import FcfcHeader from './components/header.vue'
@@ -58,22 +65,28 @@ export default {
     FcfcChat
   },
   data: () => ({
-    route: '',
+    route: {
+      path: '',
+      param: {}
+    },
     opened: true,
     context: {
       courseId: 200
     },
-    history: [],
-    chats: [],
-    socket: null,
-    lastTheirsRef: null,
+    chats: {
+      /*
+
+      */
+    },
     scrollY: 0,
     lastSeen: -1
   }),
   methods: {
     async fetchHistory() {
       const payload = await api.history.get(this.context)
-      this.$set(this, 'history', payload)
+      for(const history of payload) {
+        this.$set(this.chats, history.chatid, history)
+      }
     },
     async addHistory(question) {
       const payload = await api.history.put(this.context, question)
@@ -82,69 +95,49 @@ export default {
     },
     async deleteHistory(id) {
       await api.history.delete(id)
-      this.history = this.history.filter(_ => _.id !== id)
+      delete this.chats[id]
     },
     ///
-    initateChat() {
-      this.socket?.close()
-      this.socket = new io()
-
-      this.socket.on('create', data => {
-        this.context.convid = data.convid
-      })
-      this.socket.on('chat', data => {
-        this.lastTheirsRef ||= { side: 'theirs' }
-        this.lastTheirsRef.msgid = data.msgid
-        this.lastTheirsRef.content = data.response
-        this.lastTheirsRef.incomplete = data.incomplete
-        this.lastTheirsRef.ts = Date.now()
-
-        this.scrollIfPossible(true)
-
-        if(!data.incomplete) {
-          setTimeout(() => this.scrollIfPossible(true), 50)
-        }
-      })
-      this.socket.on('disconnect', () => {
-        this.socket = null
-        this.convid = null
-      })
-
-      this.socket.emit('create', this.context)
+    openHistory(id) {
+      this.navigate('chat', { chatid: id })
+      setTimeout(() => this.scrollToBottom(), 50)
     },
     ///
-    toggle() {
-      this.opened = !this.opened
-    },
-    close() {
-      this.opened = false
-    },
-    navigate(to) {
-      this.route = to
-    },
-    ask(question) {
+    async ask(question) {
       question = question.trim()
-      if(!question)
+      if(!question || this.waiting)
         return
 
-      if(!this.convid) {
-        this.addHistory(question)
-        this.initateChat()
+      if(!this.currentChat) {
+        const chat = await api.history.put(this.context, question)
+        this.$set(this.chats, chat.chatid, chat)
+        this.navigate('chat', { chatid: chat.chatid })
       }
 
-      this.route = 'chat'
-      this.chats.push({ side: 'ours', content: question })
-      this.lastTheirsRef = {
-        side: 'theirs',
-        content: '',
-        incomplete: true,
-        ts: Date.now()
+      const currentChat = {
+        question,
+        answer: '',
+        ts: Date.now(),
+        incomplete: true
       }
-      this.chats.push(this.lastTheirsRef)
 
-      this.scrollToBottom()
+      const source = api.message.createEvent(this.context, question)
 
-      this.socket.emit('chat', { question })
+      source.addEventListener('message', event => {
+        currentChat.answer += ' ' + event.data
+        currentChat.ts = Date.now()
+        setTimeout(() => this.scrollIfPossible(true), 50)
+      })
+      source.addEventListener('message', event => { // PLEASE IMPL THIS
+        delete currentChat.incomplete
+      })
+
+      source.stream()
+
+      this.chats[this.route.param.chatid].history.push(currentChat)
+      this.route.path = 'chat'
+
+      setTimeout(() => this.scrollToBottom(), 0)
     },
     ///
     updateScrollPosition() {
@@ -155,7 +148,7 @@ export default {
         this.lastSeen = Date.now()
     },
     scrollToBottom(instant = false) {
-      this.$refs.container.lastChild.scrollIntoView({
+      this.$refs.container?.lastChild?.scrollIntoView({
         behavior: instant? 'instant' : 'smooth',
         block: 'end',
         inline: 'nearest'
@@ -164,17 +157,35 @@ export default {
     scrollIfPossible() {
       if(this.sticked)
         this.scrollToBottom(true)
+    },
+    ///
+    toggle() {
+      this.opened = !this.opened
+    },
+    close() {
+      this.opened = false
+    },
+    navigate(to, param = {}) {
+      this.route.path = to
+      this.route.param = param
     }
   },
   computed: {
     waiting() {
-      return this.lastTheirsRef?.incomplete
+      return this.lastItemCurrently?.incomplete
     },
     sticked() {
       return this.scrollY < 32
     },
     scrollRecommended() {
-      return !this.sticked && this.lastSeen < this.lastTheirsRef?.ts
+      return !this.sticked && this.lastSeen < this.lastItemCurrently?.ts
+    },
+    currentChat() {
+      return this.chats[this.route.param?.chatid]
+    },
+    lastItemCurrently() {
+      if(!this.currentChat) return
+      return this.currentChat.history?.[this.currentChat.history?.length - 1]
     }
   },
   watch: {
@@ -204,16 +215,17 @@ export default {
   position: relative
 
   width: 21.25rem
-  max-height: min(calc(100vh - 4rem), 37.5rem)
+  height: min(calc(100vh - 4rem), 37.5rem)
 
   border-radius: 1.5rem
 
   font-family: Pretendard, sans-serif
 
-  background-color: #000
+  background-color: #fff
   background-image: url('./images/header.svg')
   background-size: contain
   background-position: top
+  background-repeat: no-repeat
 
   box-shadow: 0 0.75rem 1rem rgba(0, 0, 0, 0.2)
 
@@ -235,6 +247,8 @@ export default {
   max-height: calc(100% - 5.5rem)
   overflow-x: hidden
   overflow-y: auto
+
+  flex-grow: 1
 
 //
 
@@ -263,6 +277,7 @@ export default {
   padding: 0.5rem
   border-radius: 1rem
 
+  font-size: 0.8125rem
   line-height: 1rem
 
   background: black

@@ -1,3 +1,4 @@
+import { SSE } from 'sse.js'
 
 export default {
   history: {
@@ -5,22 +6,29 @@ export default {
       const query = new URLSearchParams(context)
       return fetch('/.api/history?' + query).then(d => d.json())
     },
-    put(context, question) {
+    put(context) {
       return fetch('/.api/history', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, context })
+        body: JSON.stringify({ context })
       }).then(d => {
         if(d.ok)
           return d.json()
-        else if(d.status === 409)
-          return null
         else
           return d
       })
     },
     delete(id) {
       return fetch('/.api/history/' + id, { method: 'DELETE' })
+    }
+  },
+  message: {
+    createEvent(context, question) {
+      const source = new SSE('/.api/message', {
+        headers: { 'Content-Type': 'application/json' },
+        payload: JSON.stringify({ question, context })
+      })
+      return source
     }
   }
 }

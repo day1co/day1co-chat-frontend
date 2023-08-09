@@ -6,19 +6,16 @@ import { Server } from 'socket.io'
 import bodyParser from 'body-parser'
 
 import history from './routes/history.mjs'
-import chat from './routes/chat/index.mjs'
+import message from './routes/message.mjs'
 
 const app = express()
-const server = http.createServer(app)
-const io = new Server(server)
-
 app.use(bodyParser.json())
 
 ///
 
 app.use('/history', history)
-chat(io)
+app.use('/message', message)
 
 ///
 
-server.listen(8012)
+app.listen(8012)
