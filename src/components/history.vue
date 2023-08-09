@@ -126,6 +126,7 @@ export default {
       height: 1.5em
 
   &-history
+    min-height: calc(100% - 8.5em)
     .fcfc-list
       &-item
         //
