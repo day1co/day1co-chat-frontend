@@ -11,6 +11,9 @@ export default function FloatingChat(mountAt, options) {
   return {
     toggle() {
       rootvm.toggle()
+    },
+    setContext(context) {
+      rootvm.$set(rootvm, 'context', context)
     }
   }
 }

@@ -16,12 +16,12 @@ app.use(bodyParser.json())
 const history = JSON.parse(fs.readFileSync('./fixture/history.json'))
 
 app.get('/history', (req, res) => {
-  const { context } = req.body
+  const context = req.query
   const query = Object.entries(context)
 
   const records = Object.entries(history).filter(([id, record]) => {
     for(const [k, v] of query)
-      if(record?.context?.[k] !== v)
+      if(record?.context?.[k] != v)
         return false
 
     return true
@@ -39,9 +39,10 @@ app.put('/history', (req, res) => {
   res.json({ id, ...history[id] })
 })
 
-app.delete('/history', (req, res) => {
-  const { id } = req.body
+app.delete('/history/:id', (req, res) => {
+  const { id } = req.params
   delete history[id]
+  res.json({})
 })
 
 ///

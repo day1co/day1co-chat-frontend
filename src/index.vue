@@ -13,7 +13,7 @@
           v-show="!route"
           :history="history"
           @submit="ask"
-          @delete="() => {}"
+          @delete="deleteHistory"
           />
         <fcfc-chat v-show="route === 'chat'" :chats="chats" />
       </main>
@@ -31,6 +31,8 @@ import FcfcHistory from './components/history.vue'
 import FcfcInput from './components/input.vue'
 import FcfcChat from './components/chat.vue'
 
+import api from './share/api.js'
+
 export default {
   name: 'FloatingChat',
   components: {
@@ -43,13 +45,26 @@ export default {
   data: () => ({
     route: '',
     opened: true,
-    history: [
-      { id: 1, question: '몬스터 에너지 울트라 시트라' },
-      { id: 2, question: '몬스터 에너지 파이프라인 펀치' },
-    ],
+    context: {
+      courseId: 200
+    },
+    history: [],
     chats: []
   }),
   methods: {
+    async fetchHistory() {
+      const payload = await api.history.get(this.context)
+      this.$set(this, 'history', payload)
+    },
+    async addHistory(question) {
+      const payload = await api.history.put(this.context, question)
+      this.history.push(payload)
+    },
+    async deleteHistory(id) {
+      await api.history.delete(id)
+      this.history = this.history.filter(_ => _.id !== id)
+    },
+    ///
     toggle() {
       this.opened = !this.opened
     },
@@ -59,13 +74,29 @@ export default {
     navigate(to) {
       this.route = to
     },
-    ask(question) {,
+    ask(question) {
       question = question.trim()
       if(!question)
         return
+
+      this.addHistory(question)
+
       this.route = 'chat'
       this.chats.push({ side: 'ours', content: question })
     }
+  },
+  watch: {
+    context() {
+      this.fetchHistory()
+    },
+    route(to, from) {
+      if(!to) {
+        this.fetchHistory()
+      }
+    }
+  },
+  mounted() {
+    this.fetchHistory()
   }
 }
 
