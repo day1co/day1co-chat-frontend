@@ -6,6 +6,19 @@ const api = (function() {
     'Content-Type': 'application/json'
   }
 
+  function wrappedFetch(uri, options = {}) {
+    let _options = { ...options }
+    if(options?.headers) {
+      _options.headers = {
+        ...headers,
+        ...options.headers
+      }
+    }
+    return fetch(endpoint + uri, _options)
+      .then(d => d.ok? d.json() : d)
+      .then(d => d?.data ?? d)
+  }
+
   return {
     setEndpoint(_endpoint) {
       endpoint = _endpoint ?? endpoint
@@ -19,48 +32,36 @@ const api = (function() {
     history: {
       list(context) {
         const query = new URLSearchParams(context)
-        return fetch(endpoint + '/history?' + query, {
-          headers
-        }).then(d => d.json())
+        return wrappedFetch('/history?' + query)
       },
       get(id) {
-        return fetch(endpoint + `/history/${id}`, {
-          headers
-        }).then(d => d.json())
+        return wrappedFetch(`/history/${id}`)
       },
       create(context) {
-        return fetch(endpoint + '/history', {
+        return wrappedFetch('/history', {
           method: 'POST',
-          headers,
           body: JSON.stringify({ context })
-        }).then(d => {
-          if(d.ok)
-            return d.json()
-          else
-            return d
         })
       },
       delete(id) {
-        return fetch(endpoint + '/history/' + id, {
-          method: 'DELETE',
-          headers
+        return wrappedFetch('/history/' + id, {
+          method: 'DELETE'
         })
       }
     },
     message: {
       createEvent(context, question) {
-        const source = new SSE(endpoint + '/message', {
-          headers,
+        const source = new SSE('/message', {
           payload: JSON.stringify({ question, context })
         })
         return source
       },
       feedback(messageId, feedback) {
-        return fetch(endpoint + '/message/' + messageId, {
+        return wrappedFetch('/message/' + messageId, {
           method: 'PUT',
           headers,
           body: JSON.stringify({ feedback })
-        }).then(d => d.json())
+        })
       }
     }
   }
