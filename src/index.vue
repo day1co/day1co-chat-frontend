@@ -175,6 +175,17 @@ export default {
   watch: {
     context() {
       this.listChat()
+    },
+    ['currentChat.history']: {
+      handler() {
+        this.scrollIfPossible()
+      },
+      deep: true
+    },
+    ['currentChat.waiting'](to) {
+      if(!to) {
+        setTimeout(() => this.scrollIfPossible(), 50)
+      }
     }
   },
   mounted() {
