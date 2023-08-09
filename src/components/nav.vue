@@ -1,6 +1,6 @@
 <template>
   <nav class="fcfc-nav">
-    <button class="fcfc-button fcfc-header-back1" @click="back">
+    <button class="fcfc-button fcfc-nav-back" @click="back">
       <svg class="fcfc-icon" viewBox="0 0 24 24">
         <path d="M14 6l-6 6l6 6"
           fill="none"
@@ -12,7 +12,7 @@
     <label class="fcfc-nav-title">
       {{ title }}
     </label>
-    <button class="fcfc-button fcfc-header-close" @click="close">
+    <button class="fcfc-button fcfc-nav-close" @click="close">
       <svg class="fcfc-icon" viewBox="0 0 24 24">
         <path d="M7 7l10 10M7 17l10-10"
           fill="none"
@@ -28,6 +28,7 @@
 
 export default {
   props: {
+    path: String,
     title: String
   },
   methods: {
@@ -63,7 +64,7 @@ export default {
   z-index: 1
 
   > *
-    transition: opacity 500ms ease
+    // transition: opacity 500ms ease
 
   &-title
     font-size: 1rem
@@ -76,7 +77,7 @@ export default {
     margin: -1rem
     padding: 1rem
 
-    &.fcfc-header-close
+    &.fcfc-nav-close
       margin-left: auto
 
 </style>

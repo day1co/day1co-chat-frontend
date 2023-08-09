@@ -1,11 +1,18 @@
 <template>
-  <div class="fcfc-root">
+  <div
+    class="fcfc-root"
+    :style="{ '--y': scrollTop }">
     <div :class="[
       'fcfc-window',
       'fcfc-route-' + (route.path || 'main')
     ]" v-show="opened">
 
-      <fcfc-nav :title="title" />
+      <img
+        class="fcfc-logo"
+        v-show="route.path === ''"
+        src="./images/fastcampus.svg">
+
+      <fcfc-nav :path="route.path" :title="title" />
 
       <main class="fcfc-content" ref="container" @scroll="updateScrollPosition">
         <transition name="fcfc-tr-fade">
@@ -73,7 +80,8 @@ export default {
       courseId: 200
     },
     chats: {},
-    scrollY: 0,
+    scrollTop: 0,
+    scrollBottom: 0,
     lastSeen: -1
   }),
   methods: {
@@ -88,24 +96,25 @@ export default {
     },
     async deleteHistory(chatid) {
       this.chats[chatid].delete()
-      delete this.chats[chatid]
+      this.$delete(this.chats, chatid)
     },
     ///
     async ask(question) {
-      if(this.currentChat) {
-        this.currentChat.ask(question)
-      } else {
+      if(!this.currentChat) {
         const chat = new Chat()
         const chatid = await chat.init(this.context)
 
         this.$set(this.chats, chatid, chat)
         this.navigate('chat', { chatid })
       }
+
+      this.currentChat.ask(question)
     },
     ///
     updateScrollPosition() {
       const el = this.$refs.container
-      this.scrollY = el.scrollHeight - (el.scrollTop + el.offsetHeight)
+      this.scrollTop = el.scrollTop
+      this.scrollBottom = el.scrollHeight - (el.scrollTop + el.offsetHeight)
 
       if(this.sticked)
         this.lastSeen = Date.now()
@@ -148,12 +157,14 @@ export default {
       return this.currentChat?.waiting
     },
     sticked() {
-      return this.scrollY < 32
+      return this.scrollBottom < 32
     },
     scrollRecommended() {
       return !this.sticked && this.lastSeen < this.currentChat?.lastTimestamp
     },
     currentChat() {
+      if(this.route.path !== 'chat')
+        return null
       return this.chats[this.route.param?.chatid]
     }
   },
@@ -171,6 +182,10 @@ export default {
 
 <style lang="sass" scoped>
 @import styles/variables
+
+$bp: 96
+$scale: "(var(--y) / #{$bp})"
+$rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
 .fcfc-window
   display: flex
@@ -199,8 +214,12 @@ export default {
   > .fcfc-nav
     background-color: transparent
 
-    > *:not(.fcfc-header-close)
+    > .fcfc-nav-back
       opacity: 0
+      pointer-events: none
+
+    > .fcfc-nav-title
+      opacity: calc(#{$scale})
       pointer-events: none
 
   > .fcfc-content > .fcfc-header
@@ -252,5 +271,13 @@ export default {
     height: 1rem
 
     vertical-align: top
+
+///
+
+.fcfc-logo
+  position: absolute
+  top: max(1rem, min(2rem, calc(1rem + #{$rscale} * 1rem)))
+  left: max(1rem, min(1.5rem, calc(1rem + #{$rscale} * 0.5rem)))
+  width: max(1.5rem, min(2rem, calc(1.5rem + #{$rscale} * 0.5rem)))
 
 </style>
