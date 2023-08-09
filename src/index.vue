@@ -101,24 +101,24 @@ export default {
     async listChat() {
       const chats = await api.history.list(this.context)
       for(const chat of chats) {
-        this.$set(this.chats, chat.chatid, new Chat(chat))
+        this.$set(this.chats, chat.chatId, new Chat(chat))
       }
     },
-    async openHistory(chatid) {
-      this.navigate('chat', { chatid })
+    async openHistory(chatId) {
+      this.navigate('chat', { chatId })
     },
-    async deleteHistory(chatid) {
-      this.chats[chatid].delete()
-      this.$delete(this.chats, chatid)
+    async deleteHistory(chatId) {
+      this.chats[chatId].delete()
+      this.$delete(this.chats, chatId)
     },
     ///
     async ask(question) {
       if(!this.currentChat) {
         const chat = new Chat()
-        const chatid = await chat.init(this.context)
+        const chatId = await chat.init(this.context)
 
-        this.$set(this.chats, chatid, chat)
-        this.navigate('chat', { chatid })
+        this.$set(this.chats, chatId, chat)
+        this.navigate('chat', { chatId })
       }
 
       this.currentChat.ask(question)
@@ -147,7 +147,7 @@ export default {
       this.route.path = to
       this.route.param = param
 
-      if(to === 'chat' && 'chatid' in param)
+      if(to === 'chat' && 'chatId' in param)
         this.currentChat.load().then(() => this.scrollToBottom())
 
       if(to === '')
@@ -180,7 +180,7 @@ export default {
     currentChat() {
       if(this.route.path !== 'chat')
         return null
-      return this.chats[this.route.param?.chatid]
+      return this.chats[this.route.param?.chatId]
     }
   },
   watch: {

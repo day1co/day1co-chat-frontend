@@ -19,26 +19,26 @@
 * Params (key-value pair as URL param)
   * any key/value: Context
 * Return (application/json)
-  * `chatid`: ChatID
+  * `chatId`: ChatID
   * `title`: String
   * `context`: 해당 대화의 Context
 
 주어진 Context로 대화 목록을 찾아옵니다.  
-chatid 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 것을 찾아서 목록을 반환합니다.
+chatId 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 것을 찾아서 목록을 반환합니다.
 
 ### PUT `/history`
 
 * Params (application/json as HTTP body)
   * `context`: Context
 * Return (application/json)
-  * `chatid`: ChatID
+  * `chatId`: ChatID
 
 주어진 Context로 새 대화를 만듭니다.
 
-### GET `/history/:chatid`
+### GET `/history/:chatId`
 
 * Params (URL)
-  * `chatid`: ChatID
+  * `chatId`: ChatID
 * Return (application/json)
   * `title`: String (TODO)
   * `history`: Message[]
@@ -48,7 +48,7 @@ chatid 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 �
 ### DELETE `/history/:id`
 
 * Params (URL)
-  * `chatid`: ChatID
+  * `chatId`: ChatID
 * Return (HTTP)
   * 204
 
@@ -59,7 +59,7 @@ chatid 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 �
 ### POST `/`
 
 * Params (application/json as HTTP body)
-  * `chatid`: ChatID
+  * `chatId`: ChatID
   * `question`: String
 * Return (text/event-stream)
   * Event `message` (default)

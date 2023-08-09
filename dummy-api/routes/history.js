@@ -12,15 +12,15 @@ app.use(bodyParser.json())
 const searchByContext = (query) =>
   Object
     .entries(history)
-    .filter(([ chatid, record ]) => {
+    .filter(([ chatId, record ]) => {
       for(const k in query)
         if(k in record.context
-        && k !== 'chatid'
+        && k !== 'chatId'
         && record.context[k] != query[k])
           return false
       return true
-    }).map(([ chatid, record ]) =>
-      ({ chatid, ...record })
+    }).map(([ chatId, record ]) =>
+      ({ chatId, ...record })
     )
 
 const fillAnswer = history => history.map(entry => ({
@@ -34,8 +34,8 @@ app.get('/', (req, res) => {
   const context = req.query
   const records = searchByContext(context)
 
-  const result = records.map(({ chatid, title, context, history }) => ({
-    chatid,
+  const result = records.map(({ chatId, title, context, history }) => ({
+    chatId,
     title,
     context
     // omit history (just for mimicking prod api)
@@ -55,21 +55,21 @@ app.post('/', (req, res) => {
   //   return
   // }
 
-  const chatid = 1 + Math.max(...Object.keys(history)) ?? 0
+  const chatId = 1 + Math.max(...Object.keys(history)) ?? 0
 
-  history[chatid] = {
+  history[chatId] = {
     context,
     title: '제목 없는 대화',
     history: []
   }
 
-  res.json({ chatid, ...history[chatid] })
+  res.json({ chatId, ...history[chatId] })
 })
 
 // Load chat history
-app.get('/:chatid', (req, res) => {
-  const chatid = req.params.chatid
-  const entry = history[chatid]
+app.get('/:chatId', (req, res) => {
+  const chatId = req.params.chatId
+  const entry = history[chatId]
   if(!entry) {
     res.status(404)
     res.end()

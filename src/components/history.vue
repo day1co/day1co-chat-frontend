@@ -17,7 +17,7 @@
   </section>
   <ul class="fcfc-list fcfc-list-history" v-else>
     <li class="fcfc-list-label"> 질문 기록 </li>
-    <li class="fcfc-list-item" v-for="entry in history" @click="$emit('submit', entry.chatid)">
+    <li class="fcfc-list-item" v-for="entry in history" @click="$emit('submit', entry.chatId)">
       <svg class="fcfc-icon" viewBox="-4 -4 24 24">
         <path
           fill="none"
@@ -33,7 +33,7 @@
         </g>
       </svg>
       <label> {{ entry.title }} </label>
-      <button class="fcfc-list-action" @click.stop="$emit('delete', entry.chatid)">
+      <button class="fcfc-list-action" @click.stop="$emit('delete', entry.chatId)">
         <svg class="fcfc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
           <path d="M8 11v6c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-6M14 10V8c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1v2M6 9.5h12M10.5 16v-4M13.5 16v-4" />
         </svg>

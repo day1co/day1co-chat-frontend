@@ -55,8 +55,8 @@ const api = (function() {
         })
         return source
       },
-      feedback(msgid, feedback) {
-        return fetch(endpoint + '/message/' + msgid, {
+      feedback(messageId, feedback) {
+        return fetch(endpoint + '/message/' + messageId, {
           method: 'PUT',
           headers,
           body: JSON.stringify({ feedback })

@@ -2,8 +2,8 @@ import api from './api'
 
 export default class Chat {
   //
-  constructor({ chatid, title } = {}) {
-    this.chatid = chatid
+  constructor({ chatId, title } = {}) {
+    this.chatId = chatId
     this.title = title ?? ''
     this.history = []
     this.loading = true
@@ -11,12 +11,12 @@ export default class Chat {
 
   async init(context) {
     const payload = await api.history.create(context)
-    this.chatid = payload.chatid
-    return payload.chatid
+    this.chatId = payload.chatId
+    return payload.chatId
   }
 
   async load() {
-    const payload = await api.history.get(this.chatid)
+    const payload = await api.history.get(this.chatId)
     this.title = payload.title
     this.history.push(...payload.history.map(h => ({ ...h, feedback: h.feedback ?? null })))
     this.loading = false
@@ -37,7 +37,7 @@ export default class Chat {
       currentChat.ts = Date.now()
     })
     source.addEventListener('close', event => {
-      currentChat.msgid = event.data
+      currentChat.messageId = event.data
       currentChat.incomplete = false
     })
 
@@ -47,14 +47,14 @@ export default class Chat {
   }
 
   delete() {
-    return api.history.delete(this.chatid)
+    return api.history.delete(this.chatId)
   }
 
-  async feedback(msgid, feedback) {
-    const payload = await api.message.feedback(msgid, feedback)
-    const index = this.history.findIndex(message => message.msgid === msgid)
+  async feedback(messageId, feedback) {
+    const payload = await api.message.feedback(messageId, feedback)
+    const index = this.history.findIndex(message => message.messageId === messageId)
     if(index < 0)
-      throw new ReferenceError(`msgid ${msgid} couldn't found from history`)
+      throw new ReferenceError(`messageId ${messageId} couldn't found from history`)
 
     this.history[index].feedback = payload.feedback
     return payload.feedback

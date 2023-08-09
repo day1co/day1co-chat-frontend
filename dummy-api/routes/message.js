@@ -9,7 +9,7 @@ app.post('/', (req, res) => {
   const payload = req.body
 
   const question = payload.question
-  const chatid = payload.chatid
+  const chatId = payload.chatId
   const messageId = Date.now().toString()
 
   console.log(payload)
@@ -30,7 +30,7 @@ app.post('/', (req, res) => {
            : [c],
     [])
 
-  history[chatid]?.history.push({
+  history[chatId]?.history.push({
     messageId,
     question,
     answer: match.response,
@@ -52,22 +52,22 @@ app.put('/:messageId', (req, res) => {
   const messageId = req.params.messageId
   const feedback = req.body.feedback
 
-  let chatid, index
-  for(const _chatid in history) {
-    const messages = history[_chatid]
+  let chatId, index
+  for(const _chatId in history) {
+    const messages = history[_chatId]
     const _index = messages.history.findIndex(_ => _.messageId === messageId)
     if(_index >= 0) {
-      chatid = _chatid
+      chatId = _chatId
       index = _index
       break
     }
   }
-  if(!chatid && !index) {
+  if(!chatId && !index) {
     res.status(404)
     res.json(null)
   }
 
-  history[chatid].history[index].feedback = feedback
+  history[chatId].history[index].feedback = feedback
   res.json({ feedback })
 })
 
