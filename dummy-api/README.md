@@ -58,6 +58,8 @@ chatId 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 �
 
 ### POST `/`
 
+> **주의** SSE를 사용합니다! dummy-api/message.js의 구현을 반드시 참조하세요!!!
+
 * Params (application/json as HTTP body)
   * `chatId`: ChatID
   * `question`: String
@@ -78,7 +80,7 @@ chatId 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 �
   * `messageId`: MessageID
 * Params (application/json as HTTP body)
   * `feedback`: String  
-    Upstage API가 그냥 좋아요 싫어요를 `'like'` `'dislike'` 식으로 보내게 되어있길래 간단간단하게 대충
+    Upstage API가 좋아요 싫어요를 `'like'` `'dislike'` 식으로 받게 되어있길래 간단간단하게 대충
 * Return (HTTP)
   * 200
 
