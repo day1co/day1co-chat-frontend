@@ -56,8 +56,8 @@ export default {
 
   padding: 1em
 
-  color: white
-  background-color: #000
+  color: #fff
+  background-color: var(--fcfc-nav-background)
 
   transition: background-color 500ms linear
 
