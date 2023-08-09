@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
     // omit history (just for mimicking prod api)
   }))
 
-  res.json(result)
+  res.json({ data: result })
 })
 
 // Create new chat session
@@ -63,7 +63,7 @@ app.post('/', (req, res) => {
     history: []
   }
 
-  res.json({ chatId, ...history[chatId] })
+  res.json({ data: { chatId, ...history[chatId] } })
 })
 
 // Load chat history
@@ -76,13 +76,13 @@ app.get('/:chatId', (req, res) => {
     return
   }
   entry.history = fillAnswer(entry.history)
-  res.json(entry)
+  res.json({ data: entry })
 })
 
 app.delete('/:id', (req, res) => {
   const { id } = req.params
   delete history[id]
-  res.json({})
+  res.json({ data: {} })
 })
 
 ///

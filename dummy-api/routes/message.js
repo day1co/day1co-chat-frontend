@@ -68,7 +68,7 @@ app.put('/:messageId', (req, res) => {
   }
 
   history[chatId].history[index].feedback = feedback
-  res.json({ feedback })
+  res.json({ data: { feedback } })
 })
 
 export default app
