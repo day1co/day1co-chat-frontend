@@ -3,8 +3,8 @@ import * as url from 'node:url'
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import history from './routes/history.mjs'
-import message from './routes/message.mjs'
+import history from './routes/history.js'
+import message from './routes/message.js'
 
 const app = express()
 app.use(bodyParser.json())

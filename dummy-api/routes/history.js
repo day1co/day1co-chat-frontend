@@ -1,7 +1,7 @@
 import fs from 'fs'
 
-import history from '../fixture/history.mjs'
-import knowledge from '../fixture/knowledge.mjs'
+import history from '../fixture/history.js'
+import knowledge from '../fixture/knowledge.js'
 
 import express from 'express'
 import bodyParser from 'body-parser'
