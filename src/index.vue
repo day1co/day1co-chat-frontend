@@ -113,9 +113,8 @@ export default {
       if(!question)
         return
 
-      this.addHistory(question)
-
       if(!this.convid) {
+        this.addHistory(question)
         this.initateChat()
       }
       this.route = 'chat'
