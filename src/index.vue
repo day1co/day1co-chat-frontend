@@ -86,7 +86,8 @@ export default {
     opened: true,
     options: {
       qna: null,
-      endpoint: null
+      endpoint: null,
+      token: null
     },
     context: {
       courseId: 200
@@ -190,6 +191,8 @@ export default {
       handler(to) {
         if(to?.endpoint)
           api.setEndpoint(to.endpoint)
+        if(to?.token)
+          api.setKey(to.token)
       },
       deep: true
     },
