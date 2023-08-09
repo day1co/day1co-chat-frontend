@@ -102,6 +102,8 @@ export default class Chat {
   }
 
   retry(messageId) {
+    if(this.waiting)
+      return
     const index = this.history.findIndex(message => message.messageId === messageId)
     const [ message ] = this.history.splice(index, 1)
     return this.ask(message.question)
