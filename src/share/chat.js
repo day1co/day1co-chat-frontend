@@ -28,6 +28,8 @@ export default class Chat {
     const currentChat = {
       question,
       answer: '',
+      messageId: null,
+      feedback: '',
       ts: Date.now(),
       incomplete: true
     }
