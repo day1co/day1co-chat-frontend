@@ -118,7 +118,7 @@ export default {
         const chatId = await chat.init(this.context)
 
         this.$set(this.chats, chatId, chat)
-        this.navigate('chat', { chatId })
+        this.navigate('chat', { chatId }, true)
       }
 
       this.currentChat.ask(question)
@@ -143,14 +143,14 @@ export default {
       if(this.sticked)
         this.scrollToBottom(true)
     },
-    navigate(to, param = {}) {
+    navigate(to, param = {}, doNotRequest = false) {
       this.route.path = to
       this.route.param = param
 
-      if(to === 'chat' && 'chatId' in param)
+      if(to === 'chat' && 'chatId' in param && !doNotRequest)
         this.currentChat.load().then(() => this.scrollToBottom())
 
-      if(to === '')
+      if(to === '' && !doNotRequest)
         this.listChat()
     },
     ///
