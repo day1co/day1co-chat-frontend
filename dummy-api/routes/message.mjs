@@ -48,14 +48,14 @@ app.put('/:msgid', (req, res) => {
   let chatid, index
   for(const _chatid in history) {
     const messages = history[_chatid]
-    const _index = messages.findIndex(_ => _.msgid === msgid)
+    const _index = messages.history.findIndex(_ => _.msgid === msgid)
     if(_index >= 0) {
       chatid = _chatid
       index = _index
       break
     }
   }
-  if(!found) {
+  if(!chatid && !index) {
     res.status(404)
     res.json(null)
   }

@@ -24,6 +24,7 @@ const searchByContext = (query) =>
     )
 
 const fillAnswer = history => history.map(entry => ({
+  ...entry,
   question: entry.question,
   answer: entry.answer ?? knowledge(entry.question).response
 }))

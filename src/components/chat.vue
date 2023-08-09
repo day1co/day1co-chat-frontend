@@ -21,7 +21,11 @@
               { active: message.feedback === _feedback }
             ]"
             :title="label"
-            @click="feedback(message.id, _feedback)"></button>
+            @click="feedback(message.msgid, _feedback)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+              <path fill="currentColor" d="M11.3 5.2c.5-.8 1.8-.5 1.8.5l.2 3.6h5a1.4 1.4 0 0 1 1.4 1.7l-2 7.2a1.4 1.4 0 0 1-1.3 1H7.5v-8l3.8-6Zm-4.8 6H5.2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h1.3v-8Z"/>
+            </svg>
+          </button>
         </li>
       </template>
       <li class="fcfc-chat-open-qna theirs" v-if="!lastMessage?.incomplete">
@@ -121,7 +125,9 @@ export default {
     &-button
       width: 1.5rem
       height: 1.5rem
-      background-image: url('../images/thumb.svg')
+      padding: 0
+
+      color: #aaa
 
       transition: background-color 200ms ease
 
@@ -132,7 +138,7 @@ export default {
         background-color: #0002
 
       &.active
-        fill: #ed234b
+        color: #ed234b
 
       &.like
         //

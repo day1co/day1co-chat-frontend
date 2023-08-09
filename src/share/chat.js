@@ -18,7 +18,7 @@ export default class Chat {
   async load() {
     const payload = await api.history.get(this.chatid)
     this.title = payload.title
-    this.history = Object.assign(this.history, payload.history)
+    this.history.push(...payload.history)
     this.loading = false
   }
 
@@ -52,7 +52,7 @@ export default class Chat {
 
   async feedback(msgid, feedback) {
     const payload = await api.message.feedback(msgid, feedback)
-    const index = this.history.findIndex(message.msgid === msgid)
+    const index = this.history.findIndex(message => message.msgid === msgid)
     if(index < 0)
       throw new ReferenceError(`msgid ${msgid} couldn't found from history`)
 
