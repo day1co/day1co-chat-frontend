@@ -1,7 +1,7 @@
 <template>
   <header class="fcfc-header">
     <p class="fcfc-header-line">
-      안녕하세요🤔
+      안녕하세요👋
       <br />
       AI챗봇에게 궁금한 것을 물어보세요
     </p>
