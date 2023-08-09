@@ -89,7 +89,10 @@ export default {
     border: 1px solid #e6e8eb
     border-radius: 0.375em
 
+    background: #fff
     box-shadow: 0 0.2em 0.5em #202a4514
+
+    transition: background 200ms ease, border-color 200ms ease
 
     > label
       font-size: 0.8125em
@@ -100,6 +103,11 @@ export default {
       @include media('mobile')
         font-size: 1em
         line-height: 1.5em
+
+    &:hover
+      background: #fff7f5
+      border-color: #ffaa94
+
 
   &-flat > &-item
     background: #f2f2f2
