@@ -11,7 +11,7 @@ const searchByContext = (query) =>
     .entries(history)
     .filter(([ id, record ]) => {
       for(const k in query)
-        if(k in record.context && record.context[k] != query[k])
+        if(k in record.context && k !== 'convid' && record.context[k] != query[k])
           return false
       return true
     }).map(([ id, record ]) =>

@@ -27,6 +27,8 @@
 
 <script>
 
+import { io } from 'socket.io-client'
+
 import FcfcNav from './components/nav.vue'
 import FcfcHeader from './components/header.vue'
 import FcfcHistory from './components/history.vue'
@@ -52,6 +54,7 @@ export default {
     },
     history: [],
     chats: [],
+    socket: null,
     lastTheirsRef: null
   }),
   methods: {
@@ -67,6 +70,27 @@ export default {
     async deleteHistory(id) {
       await api.history.delete(id)
       this.history = this.history.filter(_ => _.id !== id)
+    },
+    ///
+    initateChat() {
+      this.socket?.close()
+      this.socket = new io()
+
+      this.socket.on('create', data => {
+        this.context.convid = data.convid
+      })
+      this.socket.on('chat', data => {
+        this.lastTheirsRef ||= { side: 'theirs' }
+        this.lastTheirsRef.msgid = data.msgid
+        this.lastTheirsRef.content = data.response
+        this.lastTheirsRef.incomplete = data.incomplete
+      })
+      this.socket.on('disconnect', () => {
+        this.socket = null
+        this.convid = null
+      })
+
+      this.socket.emit('create', this.context)
     },
     ///
     toggle() {
@@ -85,10 +109,15 @@ export default {
 
       this.addHistory(question)
 
+      if(!this.convid) {
+        this.initateChat()
+      }
       this.route = 'chat'
       this.chats.push({ side: 'ours', content: question })
       this.lastTheirsRef = { side: 'theirs', content: '', incomplete: true }
       this.chats.push(this.lastTheirsRef)
+
+      this.socket.emit('chat', { question })
     }
   },
   computed: {

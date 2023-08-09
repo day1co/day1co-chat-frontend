@@ -17,6 +17,7 @@
     "clean": "rimraf ./dist ./node_modules"
   },
   "dependencies": {
+    "socket.io-client": "^4.6.1",
     "vue": "^2.7.14"
   },
   "devDependencies": {

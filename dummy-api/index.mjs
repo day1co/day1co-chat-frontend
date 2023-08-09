@@ -1,10 +1,12 @@
 import http from 'http'
+import fs from 'fs'
 
 import express from 'express'
 import { Server } from 'socket.io'
 import bodyParser from 'body-parser'
 
 import history from './routes/history.mjs'
+import conversation from './routes/conversation.mjs'
 
 const app = express()
 const server = http.createServer(app)
@@ -15,11 +17,8 @@ app.use(bodyParser.json())
 ///
 
 app.use('/history', history)
+conversation(io)
 
 ///
 
-io.on('connection', socket => {
-  //
-})
-
-app.listen(8012)
+server.listen(8012)
