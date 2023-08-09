@@ -3,11 +3,13 @@ import App from './index.vue'
 
 import './styles/index.sass'
 
-export default function FloatingChat(mountAt, options) {
-  App.el = mountAt
+export default function FloatingChat(mountAt, options = {}) {
+  // App.el = mountAt
   const rootvm = new Vue(App)
   globalThis.rootvm = rootvm
-  rootvm.$set(rootvm, 'options', options ?? {})
+  rootvm.options = Object.assign(rootvm.options, options)
+
+  rootvm.$mount(mountAt)
 
   return {
     toggle() {

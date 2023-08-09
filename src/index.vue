@@ -81,7 +81,10 @@ export default {
       param: {}
     },
     opened: true,
-    options: {},
+    options: {
+      qna: null,
+      endpoint: null
+    },
     context: {
       courseId: 200
     },
@@ -90,11 +93,6 @@ export default {
     scrollBottom: 0,
     lastSeen: -1
   }),
-  provide() {
-    return {
-      options: this.options
-    }
-  },
   methods: {
     async listChat() {
       const chats = await api.history.list(this.context)
@@ -185,6 +183,13 @@ export default {
     context() {
       this.listChat()
     },
+    options: {
+      handler(to) {
+        if(to?.endpoint)
+          api.setEndpoint(to.endpoint)
+      },
+      deep: true
+    },
     ['currentChat.history']: {
       handler() {
         this.scrollIfPossible()
@@ -198,6 +203,7 @@ export default {
     }
   },
   mounted() {
+    api.setEndpoint(this.options?.endpoint)
     this.listChat()
   }
 }

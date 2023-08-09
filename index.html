@@ -13,8 +13,10 @@
 
 import FloatingChat from './src/index.js'
 
-globalThis.chat = new FloatingChat('#wrapper')
-globalThis.chat.setOption('qna', 'aaaaaa')
+globalThis.chat = new FloatingChat('#wrapper', {
+  qna: 'aaaaa',
+  endpoint: '/.api'
+})
 
 document.getElementById('open').addEventListener('click', () => {
   globalThis.chat.toggle()
