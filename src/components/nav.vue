@@ -33,10 +33,10 @@ export default {
   },
   methods: {
     back() {
-      this.$root.navigate('')
+      this.$emit('navigate', '')
     },
     close() {
-      this.$root.close()
+      this.$emit('close')
     }
   }
 }

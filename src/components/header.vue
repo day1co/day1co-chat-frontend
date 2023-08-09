@@ -10,13 +10,7 @@
 
 <script>
 
-export default {
-  methods: {
-    close() {
-      this.$root.close()
-    }
-  }
-}
+export default {}
 
 </script>
 

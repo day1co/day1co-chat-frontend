@@ -12,7 +12,11 @@
         v-show="route.path === ''"
         src="./images/fastcampus.svg">
 
-      <fcfc-nav :path="route.path" :title="title" />
+      <fcfc-nav
+        :path="route.path"
+        :title="title"
+        @navigate="navigate"
+        @close="close" />
 
       <main class="fcfc-content" ref="container" @scroll="updateScrollPosition">
         <transition name="fcfc-tr-fade">
