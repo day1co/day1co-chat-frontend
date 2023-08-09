@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fcfc-root theme-zerobase"
+    class="fcfc-root"
     :style="{ '--y': scrollTop }">
     <div :class="[
       'fcfc-window',
