@@ -9,6 +9,15 @@
       <img src="../images/howto-bg.jpg" />
       <figcaption>
         AI ChatBot
+        <sup style="
+          display: inline-block;
+          font-size: 0.5em;
+          margin: 0 0.5em 0.5em;
+          padding: 0.5em 0.7em;
+          line-height: 1em;
+          background: linear-gradient(-20deg, #f90, #db4);
+          text-shadow: 0 0 0.2em black;
+          border-radius: 1em;">BETA</sup>
       </figcaption>
     </figure>
     <p class="fcfc-howto-text">
