@@ -60,8 +60,8 @@ export default {
   },
   data: () => ({
     FEEDBACK: [
-      [ 'like', '좋아요' ],
-      [ 'dislike', '싫어요' ]
+      [ 'LIKE', '좋아요' ],
+      [ 'DISLIKE', '싫어요' ]
     ]
   }),
   methods: {
@@ -159,9 +159,9 @@ export default {
         fill: #000
         stroke: #000
 
-      &.like
+      &.LIKE
         //
-      &.dislike
+      &.DISLIKE
         transform: rotate(180deg)
 
     &:has(.active) &-button:not(.active) > svg
