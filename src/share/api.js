@@ -64,7 +64,7 @@ const api = (function() {
           body: JSON.stringify({ question })
         })
       },
-      feedback(messageId, feedback) {
+      feedback(chatId, messageId, feedback) {
         return wrappedFetch(`/messages/${chatId}/${messageId}`, {
           method: 'PUT',
           headers,

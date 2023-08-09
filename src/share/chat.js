@@ -73,7 +73,7 @@ export default class Chat {
   }
 
   async feedback(messageId, feedback) {
-    const payload = await api.message.feedback(messageId, feedback)
+    const payload = await api.message.feedback(this.chatId, messageId, feedback)
     const index = this.history.findIndex(message => message.messageId === messageId)
     if(index < 0)
       throw new ReferenceError(`messageId ${messageId} couldn't found from history`)
