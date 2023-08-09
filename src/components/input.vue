@@ -16,7 +16,10 @@
           :placeholder="disabled? '잠시만요…' : '질문을 입력해보세요…'">
         </textarea>
       </label>
-      <button class="fcfc-input-send" @click="send">
+      <button :class="[
+        'fcfc-input-send',
+        { disabled: disabled || !value }
+      ]" @click="send">
         <svg class="fcfc-icon" viewBox="0 0 24 24" fill="none" stroke="white">
           <path d="M12 5.5V19M7 10l5-5l5 5" />
         </svg>
@@ -37,7 +40,8 @@ export default {
   }),
   methods: {
     update(e) {
-      this.precompositiedValue = this.value = e.target.value
+      this.precompositiedValue = e.target.value
+      this.value = e.target.value
 
       if(e instanceof CompositionEvent) {
         if(window.getSelection().type === 'Caret') {
@@ -50,7 +54,8 @@ export default {
       if(!e.ctrlKey && !e.metaKey)
         return
       this.$emit('submit', this.value)
-      this.precompositiedValue = this.value = ''
+      this.precompositiedValue = ''
+      this.value = ''
     }
   }
 }
@@ -130,7 +135,7 @@ export default {
     > svg
       vertical-align: top
 
-  &-field:empty + &-send
-    background: #d3d3d3 !important
+    &.disabled
+      background: #d3d3d3 !important
 
 </style>
