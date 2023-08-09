@@ -5,7 +5,7 @@
       'fcfc-route-' + (route || 'main')
     ]" v-show="opened">
       <fcfc-nav />
-      <main class="fcfc-content">
+      <main class="fcfc-content" ref="container" @scroll="updateScrollPosition">
         <transition name="fcfc-tr-fade">
           <fcfc-header v-show="!route" />
         </transition>
@@ -20,12 +20,17 @@
       <fcfc-input
         @submit="ask"
         :disabled="waiting" />
-      <button class="fcfc-scroll-to-bottom" v-if="scrollRecommended || true">
-        <svg viewBox="0 0 16 16">
-          <path d="M8 2v12M2 8l6 6l6-6" fill="none" stroke="white" />
-        </svg>
-        새 메시지
-      </button>
+      <transition name="fcfc-tr-fade" v-if="route === 'chat'">
+        <button
+          class="fcfc-scroll-to-bottom"
+          v-show="scrollRecommended"
+          @click="scrollToBottom()">
+          <svg viewBox="0 0 16 16">
+            <path d="M8 2v12M2 8l6 6l6-6" fill="none" stroke="white" />
+          </svg>
+          새 메시지
+        </button>
+      </transition>
     </div>
     <div class="fcfc-dim" v-show="opened"></div>
   </div>
@@ -61,7 +66,9 @@ export default {
     history: [],
     chats: [],
     socket: null,
-    lastTheirsRef: null
+    lastTheirsRef: null,
+    scrollY: 0,
+    lastSeen: -1
   }),
   methods: {
     async fetchHistory() {
@@ -90,6 +97,13 @@ export default {
         this.lastTheirsRef.msgid = data.msgid
         this.lastTheirsRef.content = data.response
         this.lastTheirsRef.incomplete = data.incomplete
+        this.lastTheirsRef.ts = Date.now()
+
+        this.scrollIfPossible(true)
+
+        if(!data.incomplete) {
+          setTimeout(() => this.scrollIfPossible(true), 50)
+        }
       })
       this.socket.on('disconnect', () => {
         this.socket = null
@@ -117,17 +131,50 @@ export default {
         this.addHistory(question)
         this.initateChat()
       }
+
       this.route = 'chat'
       this.chats.push({ side: 'ours', content: question })
-      this.lastTheirsRef = { side: 'theirs', content: '', incomplete: true }
+      this.lastTheirsRef = {
+        side: 'theirs',
+        content: '',
+        incomplete: true,
+        ts: Date.now()
+      }
       this.chats.push(this.lastTheirsRef)
 
+      this.scrollToBottom()
+
       this.socket.emit('chat', { question })
+    },
+    ///
+    updateScrollPosition() {
+      const el = this.$refs.container
+      this.scrollY = el.scrollHeight - (el.scrollTop + el.offsetHeight)
+
+      if(this.sticked)
+        this.lastSeen = Date.now()
+    },
+    scrollToBottom(instant = false) {
+      this.$refs.container.lastChild.scrollIntoView({
+        behavior: instant? 'instant' : 'smooth',
+        block: 'end',
+        inline: 'nearest'
+      })
+    },
+    scrollIfPossible() {
+      if(this.sticked)
+        this.scrollToBottom(true)
     }
   },
   computed: {
     waiting() {
       return this.lastTheirsRef?.incomplete
+    },
+    sticked() {
+      return this.scrollY < 32
+    },
+    scrollRecommended() {
+      return !this.sticked && this.lastSeen < this.lastTheirsRef?.ts
     }
   },
   watch: {
