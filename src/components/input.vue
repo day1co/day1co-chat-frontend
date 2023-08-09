@@ -1,12 +1,20 @@
 <template>
   <form class="fcfc-input" @submit.prevent.stop>
     <div class="fcfc-input-wrap">
-      <div
+      <label
         class="fcfc-input-field"
         role="textbox"
-        contenteditable
-        @input=""
-        placeholder="질문을 입력해보세요…"></div>
+        ref="input"
+        :data-value="precompositiedValue">
+        <textarea
+          rows="1"
+          v-model="value"
+          @keyup.ctrl.enter="send"
+          @input="update"
+          @compositionupdate="update"
+          placeholder="질문을 입력해보세요…">
+        </textarea>
+      </label>
       <button class="fcfc-input-send" @click="send">
         <svg class="fcfc-icon" viewBox="0 0 24 24" fill="none" stroke="white">
           <path d="M12 5.5V19M7 10l5-5l5 5" />
@@ -23,14 +31,24 @@ export default {
     disabled: Boolean
   },
   data: () => ({
+    precompositiedValue: '',
     value: ''
   }),
   methods: {
     update(e) {
-      this.value = e.target.innerText
+      this.precompositiedValue = e.target.value
+
+      if(e instanceof CompositionEvent) {
+        if(window.getSelection().type === 'Caret') {
+          this.precompositiedValue += e.data
+        }
+      }
+
+      this.value = e.target.value
     },
     send() {
       this.$emit('submit', this.value)
+      this.value = ''
     }
   }
 }
@@ -54,23 +72,46 @@ export default {
     position: relative
 
   &-field
-    appearance: none
+    display: grid
+    vertical-align: top
+    align-items: center
+    position: relative
 
     font-size: 0.875rem
     line-height: 1.5rem
 
-    padding: 0.75rem 3.25rem 0.75rem 1rem
-    border-radius: 1.5rem
-    box-shadow: 0 0 0 1px #e6e8eb inset
-    background-color: #f8f8f8
-
-    resize: none
 
     transition: box-shadow 200ms ease
 
-    &:focus
-      outline: none
-      box-shadow: 0 0 0 1px #444 inset
+    &::after
+      content: attr(data-value) ' '
+      visibility: hidden
+      white-space: pre-wrap
+
+    &::after, > textarea
+      box-sizing: border-box
+      width: 100%
+      height: 100%
+      min-width: 1em
+      grid-area: 1 / 1
+      font: inherit
+
+      resize: none
+      background: none
+      appearance: none
+      border: none
+
+      box-shadow: 0 0 0 1px #e6e8eb inset
+      background-color: #f8f8f8
+
+      padding: 0.75rem 3.25rem 0.75rem 1rem
+      margin: 0
+      border-radius: 1.5rem
+
+      &:focus
+        outline: none
+        box-shadow: 0 0 0 1px #444 inset
+
 
   &-send
     position: absolute
