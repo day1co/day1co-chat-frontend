@@ -233,7 +233,7 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   align-items: flex-end
   justify-content: flex-end
 
-  font-family: Pretendard, 'Pretendard Variable', var(--font-base), sans-serif
+  font-family: Pretendard, 'Pretendard Variable', sans-serif
   font-size: 16px
 
   max-height: calc(100% - 6em)
