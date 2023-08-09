@@ -7,6 +7,7 @@ export default function FloatingChat(mountAt, options) {
   App.el = mountAt
   const rootvm = new Vue(App)
   globalThis.rootvm = rootvm
+  rootvm.$set(rootvm, 'options', options ?? {})
 
   return {
     toggle() {
@@ -14,6 +15,9 @@ export default function FloatingChat(mountAt, options) {
     },
     setContext(context) {
       rootvm.$set(rootvm, 'context', context)
+    },
+    setOption(key, value) {
+      rootvm.setOption(key, value)
     }
   }
 }

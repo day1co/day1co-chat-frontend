@@ -28,11 +28,11 @@
           </button>
         </li>
       </template>
-      <li class="fcfc-chat-open-qna theirs" v-if="!lastMessage?.incomplete">
+      <li class="fcfc-chat-open-qna theirs" v-if="!lastMessage?.incomplete && qnaLink">
         <p class="label">
           더 궁금한 것이 있다면, 질의응답 게시판에서 질문해 보세요!
         </p>
-        <a href="#whatever">
+        <a :href="qnaLink">
           질의응답 게시판<!--
        --><svg viewBox="0 0 16 16">
             <path
@@ -55,7 +55,8 @@ import Chat from '../share/chat.js'
 
 export default {
   props: {
-    chat: Chat
+    chat: Chat,
+    qnaLink: String
   },
   data: () => ({
     FEEDBACK: [

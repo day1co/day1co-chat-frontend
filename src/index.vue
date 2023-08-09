@@ -31,7 +31,8 @@
         <fcfc-chat
           v-show="route.path === 'chat'"
           v-if="currentChat"
-          :chat="currentChat" />
+          :chat="currentChat"
+          :qna-link="options.qna" />
       </main>
 
       <fcfc-input
@@ -80,6 +81,7 @@ export default {
       param: {}
     },
     opened: true,
+    options: {},
     context: {
       courseId: 200
     },
@@ -88,6 +90,11 @@ export default {
     scrollBottom: 0,
     lastSeen: -1
   }),
+  provide() {
+    return {
+      options: this.options
+    }
+  },
   methods: {
     async listChat() {
       const chats = await api.history.list(this.context)
@@ -146,6 +153,9 @@ export default {
       }
     },
     ///
+    setOption(key, value) {
+      this.$set(this.options, key, value)
+    },
     toggle() {
       this.opened = !this.opened
     },
