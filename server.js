@@ -7,7 +7,7 @@ import express from 'express'
 import { createServer as createViteServer } from 'vite'
 
 import viteConfig from './vite.config.js'
-import dummyServer from './dummy-api/index.mjs'
+import dummyServer from './dummy-api/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const HOST = import.meta.env?.HOST
