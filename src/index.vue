@@ -1,16 +1,11 @@
 <template>
   <div
-    class="fcfc-root"
+    class="fcfc-root theme-coloso"
     :style="{ '--y': scrollTop }">
     <div :class="[
       'fcfc-window',
       'fcfc-route-' + (route.path || 'main')
     ]" v-show="opened">
-
-      <img
-        class="fcfc-logo"
-        v-show="route.path === ''"
-        src="./images/fastcampus.svg">
 
       <fcfc-nav
         :path="route.path"
@@ -257,7 +252,7 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   color: var(--fcfc-foreground)
 
   background-color: var(--fcfc-background)
-  background-image: url('./images/header.svg')
+  background-image: var(--fcfc-theme-header)
   background-size: contain
   background-position: top
   background-repeat: no-repeat
@@ -281,6 +276,21 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
   > .fcfc-content > .fcfc-header
     margin-top: -3.5em
+
+  &::before
+    display: block
+    content: ''
+
+    position: absolute
+    top: max(1em, min(2em, calc(1em + #{$rscale} * 1em)))
+    left: max(1em, min(1.5em, calc(1em + #{$rscale} * 0.5em)))
+    width: max(1.5em, min(2em, calc(1.5em + #{$rscale} * 0.5em)))
+    height: max(1.5em, min(2em, calc(1.5em + #{$rscale} * 0.5em)))
+
+    background-image: var(--fcfc-theme-logo)
+    background-size: cover
+    background-repeat: no-repeat
+
 
 .fcfc-content
   margin-top: 3.5em
@@ -332,12 +342,6 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
     vertical-align: top
 
 ///
-
-.fcfc-logo
-  position: absolute
-  top: max(1em, min(2em, calc(1em + #{$rscale} * 1em)))
-  left: max(1em, min(1.5em, calc(1em + #{$rscale} * 0.5em)))
-  width: max(1.5em, min(2em, calc(1.5em + #{$rscale} * 0.5em)))
 
 .fcfc-fab-toggle
   width: 7em

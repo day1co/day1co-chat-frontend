@@ -1,3 +1,5 @@
+$possible-themes: fastcampus, coloso, zerobase
+
 .fcfc-root
   --fcfc-background: #fff
   --fcfc-foreground: #000
@@ -15,3 +17,21 @@
   --fcfc-chat-background-ours: var(--fcfc-background)
   --fcfc-chat-background-theirs: #f3f3f3
   --fcfc-chat-section-border: #e6e8eb
+
+  // themes
+  // --fcfc-theme-accent
+  --fcfc-theme-header: url('@/themes/default/header.svg')
+  --fcfc-theme-logo: url('@/themes/default/logo.svg')
+  --fcfc-theme-chatbot-icon: url('@/themes/default/chatbot-icon.svg')
+
+  @each $theme in $possible-themes
+
+    &.theme-#{$theme}
+      // --fcfc-theme-accent
+      --fcfc-theme-header: url('../themes/#{$theme}/header.svg')
+
+      @if $theme == 'fc-b2b'
+        $theme: 'fastcampus'
+
+      --fcfc-theme-logo: url('../themes/#{$theme}/logo.svg')
+      --fcfc-theme-chatbot-icon: url('../themes/#{$theme}/chatbot-icon.svg')

@@ -116,7 +116,7 @@ export default {
       background-position-x: calc(100% - 1em)
 
     &.theirs
-      background-image: url('../images/profile-theirs.svg')
+      background-image: var(--fcfc-theme-chatbot-icon)
       background-position-x: 1em
 
   &-feedback
