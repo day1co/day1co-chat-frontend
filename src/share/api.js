@@ -7,12 +7,10 @@ const api = (function() {
   }
 
   function wrappedFetch(uri, options = {}) {
-    let _options = { ...options }
-    if(options?.headers) {
-      _options.headers = {
-        ...headers,
-        ...options.headers
-      }
+    let _options = { ...options, headers }
+    _options.headers = {
+      ...headers,
+      ...(options.headers ?? {})
     }
     return fetch(endpoint + uri, _options)
       .then(d => d.ok? d.json() : d)
