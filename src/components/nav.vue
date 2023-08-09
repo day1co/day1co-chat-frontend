@@ -10,7 +10,7 @@
       </svg>
     </button>
     <label class="fcfc-nav-title">
-      새로운 질문
+      {{ title }}
     </label>
     <button class="fcfc-button fcfc-header-close" @click="close">
       <svg class="fcfc-icon" viewBox="0 0 24 24">
@@ -27,6 +27,9 @@
 <script>
 
 export default {
+  props: {
+    title: String
+  },
   methods: {
     back() {
       this.$root.navigate('')

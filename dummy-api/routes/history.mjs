@@ -3,8 +3,10 @@ import fs from 'fs'
 import searchKnowledge from '../search-knowledge.mjs'
 
 import express from 'express'
+import bodyParser from 'body-parser'
 
 const app = express()
+app.use(bodyParser.json())
 
 const history = JSON.parse(fs.readFileSync('./fixture/history.json'))
 
@@ -22,6 +24,11 @@ const searchByContext = (query) =>
       ({ chatid, ...record })
     )
 
+const fillAnswer = history => history.map(entry => ({
+  question: entry.question,
+  answer: entry.answer ?? searchKnowledge(entry.question).response
+}))
+
 //
 app.get('/', (req, res) => {
   const context = req.query
@@ -30,11 +37,8 @@ app.get('/', (req, res) => {
   const result = records.map(({ chatid, title, context, history }) => ({
     chatid,
     title,
-    context,
-    history: history.map(entry => ({
-      question: entry.question,
-      answer: entry.answer ?? searchKnowledge(entry.question).response
-    }))
+    context
+    // omit history (just for mimicking prod api)
   }))
 
   res.json(result)
@@ -56,6 +60,19 @@ app.put('/', (req, res) => {
   history[chatid] = { context, history: [] }
 
   res.json({ chatid, ...history[chatid] })
+})
+
+// Load chat history
+app.get('/:chatid', (req, res) => {
+  const chatid = req.params.chatid
+  const entry = history[chatid]
+  if(!entry) {
+    res.status(404)
+    res.end()
+    return
+  }
+  entry.history = fillAnswer(entry.history)
+  res.json(entry)
 })
 
 app.delete('/:id', (req, res) => {

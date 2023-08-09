@@ -1,7 +1,7 @@
 <template>
   <ul class="fcfc-list fcfc-list-history">
     <li class="fcfc-list-label"> 질문 기록 </li>
-    <li class="fcfc-list-item" v-for="entry of history" @click="$emit('submit', entry.chatid)">
+    <li class="fcfc-list-item" v-for="entry in history" @click="$emit('submit', entry.chatid)">
       {{ entry.title }}
       <button class="fcfc-list-action" @click.stop="$emit('delete', entry.chatid)">
         <img class="fcfc-icon" src="../images/trash.svg" />

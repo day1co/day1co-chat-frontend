@@ -2,11 +2,14 @@ import { SSE } from 'sse.js'
 
 export default {
   history: {
-    get(context) {
+    list(context) {
       const query = new URLSearchParams(context)
       return fetch('/.api/history?' + query).then(d => d.json())
     },
-    put(context) {
+    get(id) {
+      return fetch(`/.api/history/${id}`).then(d => d.json())
+    },
+    create(context) {
       return fetch('/.api/history', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

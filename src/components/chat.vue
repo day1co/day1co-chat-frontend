@@ -1,13 +1,16 @@
 <template>
   <div class="fcfc-chat">
     <ul class="fcfc-chat-list">
-      <template v-for="(chat, index) in history">
+      <li class="fcfc-chat-history-loading" v-if="chat.loading">
+        <img class="fcfc-chat-loading" src="../images/loading.svg" />
+      </li>
+      <template v-for="(message, index) in chat.history">
         <li class="fcfc-chat-message ours">
-          {{ chat.question }}
+          {{ message.question }}
         </li>
         <li class="fcfc-chat-message theirs">
-          {{ chat.answer }}
-          <img v-if="chat.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
+          {{ message.answer }}
+          <img v-if="message.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
         </li>
       </template>
     </ul>
@@ -16,14 +19,11 @@
 
 <script>
 
+import Chat from '../share/chat.js'
+
 export default {
   props: {
-    chats: Object
-  },
-  computed: {
-    history() {
-      return this.chats?.history ?? []
-    }
+    chat: Chat
   }
 }
 

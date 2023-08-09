@@ -5,13 +5,11 @@
       'fcfc-route-' + (route.path || 'main')
     ]" v-show="opened">
 
-      <fcfc-nav />
+      <fcfc-nav :title="title" />
 
       <main class="fcfc-content" ref="container" @scroll="updateScrollPosition">
         <transition name="fcfc-tr-fade">
-          <fcfc-header
-            v-show="!route.path"
-            :title="currentChat?.title ?? route.path? '새로운 질문' : 'AI챗봇'" />
+          <fcfc-header v-show="!route.path" />
         </transition>
         <fcfc-history
           v-show="!route.path"
@@ -22,7 +20,7 @@
         <fcfc-chat
           v-show="route.path === 'chat'"
           v-if="currentChat"
-          :chats="currentChat" />
+          :chat="currentChat" />
       </main>
 
       <fcfc-input
@@ -54,6 +52,7 @@ import FcfcInput from './components/input.vue'
 import FcfcChat from './components/chat.vue'
 
 import api from './share/api.js'
+import Chat from './share/chat.js'
 
 export default {
   name: 'FloatingChat',
@@ -73,71 +72,35 @@ export default {
     context: {
       courseId: 200
     },
-    chats: {
-      /*
-
-      */
-    },
+    chats: {},
     scrollY: 0,
     lastSeen: -1
   }),
   methods: {
-    async fetchHistory() {
-      const payload = await api.history.get(this.context)
-      for(const history of payload) {
-        this.$set(this.chats, history.chatid, history)
+    async listChat() {
+      const chats = await api.history.list(this.context)
+      for(const chat of chats) {
+        this.$set(this.chats, chat.chatid, new Chat(chat))
       }
     },
-    async addHistory(question) {
-      const payload = await api.history.put(this.context, question)
-      if(!payload) return
-      this.history.push(payload)
+    async openHistory(chatid) {
+      this.navigate('chat', { chatid })
     },
-    async deleteHistory(id) {
-      await api.history.delete(id)
-      delete this.chats[id]
-    },
-    ///
-    openHistory(id) {
-      this.navigate('chat', { chatid: id })
-      setTimeout(() => this.scrollToBottom(), 50)
+    async deleteHistory(chatid) {
+      this.chats[chatid].delete()
+      delete this.chats[chatid]
     },
     ///
     async ask(question) {
-      question = question.trim()
-      if(!question || this.waiting)
-        return
+      if(this.currentChat) {
+        this.currentChat.ask(question)
+      } else {
+        const chat = new Chat()
+        const chatid = await chat.init(this.context)
 
-      if(!this.currentChat) {
-        const chat = await api.history.put(this.context, question)
-        this.$set(this.chats, chat.chatid, chat)
-        this.navigate('chat', { chatid: chat.chatid })
+        this.$set(this.chats, chatid, chat)
+        this.navigate('chat', { chatid })
       }
-
-      const currentChat = {
-        question,
-        answer: '',
-        ts: Date.now(),
-        incomplete: true
-      }
-
-      const source = api.message.createEvent(this.context, question)
-
-      source.addEventListener('message', event => {
-        currentChat.answer += ' ' + event.data
-        currentChat.ts = Date.now()
-        setTimeout(() => this.scrollIfPossible(true), 50)
-      })
-      source.addEventListener('message', event => { // PLEASE IMPL THIS
-        delete currentChat.incomplete
-      })
-
-      source.stream()
-
-      this.chats[this.route.param.chatid].history.push(currentChat)
-      this.route.path = 'chat'
-
-      setTimeout(() => this.scrollToBottom(), 0)
     },
     ///
     updateScrollPosition() {
@@ -158,48 +121,49 @@ export default {
       if(this.sticked)
         this.scrollToBottom(true)
     },
+    navigate(to, param = {}) {
+      this.route.path = to
+      this.route.param = param
+
+      if(to === 'chat' && 'chatid' in param) {
+        this.currentChat.load().then(() => this.scrollToBottom())
+      }
+      if(to === '') {
+        this.listChat()
+      }
+    },
     ///
     toggle() {
       this.opened = !this.opened
     },
     close() {
       this.opened = false
-    },
-    navigate(to, param = {}) {
-      this.route.path = to
-      this.route.param = param
     }
   },
   computed: {
+    title() {
+      return this.currentChat?.title ?? 'AI챗봇'
+    },
     waiting() {
-      return this.lastItemCurrently?.incomplete
+      return this.currentChat?.waiting
     },
     sticked() {
       return this.scrollY < 32
     },
     scrollRecommended() {
-      return !this.sticked && this.lastSeen < this.lastItemCurrently?.ts
+      return !this.sticked && this.lastSeen < this.currentChat?.lastTimestamp
     },
     currentChat() {
       return this.chats[this.route.param?.chatid]
-    },
-    lastItemCurrently() {
-      if(!this.currentChat) return
-      return this.currentChat.history?.[this.currentChat.history?.length - 1]
     }
   },
   watch: {
     context() {
-      this.fetchHistory()
-    },
-    route(to, from) {
-      if(!to) {
-        this.fetchHistory()
-      }
+      this.listChat()
     }
   },
   mounted() {
-    this.fetchHistory()
+    this.listChat()
   }
 }
 
