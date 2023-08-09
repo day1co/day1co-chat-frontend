@@ -352,6 +352,15 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
     vertical-align: top
 
 ///
+.fcfc-dim
+  @include media('mobile')
+    position: fixed
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+
+    background: #0006
 
 .fcfc-fab-toggle
   width: 7em

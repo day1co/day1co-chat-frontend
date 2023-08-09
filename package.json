@@ -14,11 +14,11 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/floating-chat.mjs",
-      "require": "./dist/floating-chat.js"
+      "import": "./dist/floating-chat.js",
+      "require": "./dist/floating-chat.cjs"
     },
     "./style.css": "./dist/style.css",
-    "./dummy-api": "./dummy-api/index.mjs"
+    "./dummy-api": "./dummy-api/index.js"
   },
   "scripts": {
     "build": "vite build",
