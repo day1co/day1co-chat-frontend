@@ -1,34 +1,55 @@
 <template>
   <div class="fcfc-chat">
     <ul class="fcfc-chat-list">
-      <li class="fcfc-chat-history-loading" v-if="chat.loading">
+      <li class="fcfc-chat-history-loading" v-if="chat.status === 'loading'">
         <img class="fcfc-chat-loading" src="../images/loading.svg" />
       </li>
-      <template v-for="(message, index) in chat.history">
+      <li class="fcfc-chat-error theirs" v-else-if="chat.status === 'error'">
+        <span> 대화를 생성하지 못했습니다. </span>
+        <button class="fcfc-chat-retry" @click="retry">
+          <span> 다시 시도 </span>
+        </button>
+      </li>
+
+      <template v-for="(message, index) in chat.history" v-else>
+
         <li class="fcfc-chat-message ours">
           <span>{{ message.question }}</span>
         </li>
-        <li class="fcfc-chat-message theirs">
-          <span>{{ message.answer }}</span>
-          <img v-if="message.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
-        </li>
-        <li class="fcfc-chat-feedback theirs">
-          <button
-            v-for="[_feedback, label] of FEEDBACK"
-            :class="[
-              'fcfc-chat-feedback-button',
-              _feedback,
-              { active: message.feedback === _feedback }
-            ]"
-            :title="label"
-            @click="feedback(message.messageId, _feedback)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-              <path stroke-width="1" d="M9.2 20H7.3v-8.5l4.5-7.3.4-.3c.2 0 .5.2.6.5l.1 4.6c0 .3.3.5.5.5h6.2a.9.9 0 0 1 .9 1.1L18 19.4c-.1.4-.5.7-.9.7h-8ZM4 20a.5.5 0 0 1-.5-.4v-7.3c0-.3.2-.5.5-.5H5v8.3H4Z" />
-            </svg>
+
+        <li class="fcfc-chat-error theirs" v-if="message.status === 'error'">
+          <span> 답변을 불러오지 못했습니다. </span>
+          <button class="fcfc-chat-retry" @click="retry(message.question)">
+            <span> 다시 시도 </span>
           </button>
         </li>
+
+        <template v-else>
+          <li class="fcfc-chat-message theirs">
+            <span>{{ message.answer }}</span>
+            <img v-if="message.status === 'loading'" class="fcfc-chat-loading" src="../images/loading.svg" />
+          </li>
+
+          <li class="fcfc-chat-feedback theirs" v-if="!message.status">
+            <button
+              v-for="[_feedback, label] of FEEDBACK"
+              :class="[
+                'fcfc-chat-feedback-button',
+                _feedback,
+                { active: message.feedback === _feedback }
+              ]"
+              :title="label"
+              @click="feedback(message.messageId, _feedback)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                <path stroke-width="1" d="M9.2 20H7.3v-8.5l4.5-7.3.4-.3c.2 0 .5.2.6.5l.1 4.6c0 .3.3.5.5.5h6.2a.9.9 0 0 1 .9 1.1L18 19.4c-.1.4-.5.7-.9.7h-8ZM4 20a.5.5 0 0 1-.5-.4v-7.3c0-.3.2-.5.5-.5H5v8.3H4Z" />
+              </svg>
+            </button>
+          </li>
+        </template>
+
       </template>
-      <li class="fcfc-chat-open-qna theirs" v-if="!chat.loading && !lastMessage?.incomplete && qnaLink">
+
+      <li class="fcfc-chat-open-qna theirs" v-if="!lastError && !chat.status && !lastMessage.status && qnaLink">
         <p class="label">
           더 궁금한 것이 있다면, 질의응답 게시판에서 질문해 보세요!
         </p>
@@ -56,7 +77,8 @@ import Chat from '../share/chat.js'
 export default {
   props: {
     chat: Chat,
-    qnaLink: String
+    qnaLink: String,
+    error: String
   },
   data: () => ({
     FEEDBACK: [
@@ -65,6 +87,12 @@ export default {
     ]
   }),
   methods: {
+    async retry() {
+      if(!this.chat.initiated)
+        this.$emit('retry')
+      else
+        this.chat.retry()
+    },
     async feedback(messageId, feedback) {
       this.chat.feedback(messageId, feedback)
     }
@@ -125,6 +153,33 @@ export default {
 
     @include media('mobile')
       padding-top: 1.125em
+
+  &-error
+    display: flex
+    padding: 0.75em 1em 0.75em 2.5em
+    text-indent: -0.25em
+
+    line-height: 1.5em
+
+    background-color: #fff3f6
+    background-image: url('../images/alert.svg')
+    background-size: 1.5em
+    background-position: 1em 0.75em
+    background-repeat: no-repeat
+
+    span
+      font-size: 0.875em
+
+    > button
+      color: #ed234b
+
+      margin-left: auto
+      padding-right: 1.25em
+
+      background-image: url('../images/retry.svg')
+      background-size: 1em 1.5em
+      background-position: right center
+      background-repeat: no-repeat
 
   &-feedback
     display: flex

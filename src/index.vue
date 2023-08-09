@@ -27,7 +27,8 @@
           v-show="route.path === 'chat'"
           v-if="currentChat"
           :chat="currentChat"
-          :qna-link="options.qna" />
+          :qna-link="options.qna"
+          @retry="retry" />
       </main>
 
       <fcfc-input
@@ -39,10 +40,10 @@
           class="fcfc-scroll-to-bottom"
           v-show="scrollRecommended"
           @click="scrollToBottom()">
-          <svg viewBox="0 0 16 16">
-            <path d="M8 2v12M2 8l6 6l6-6" fill="none" stroke="white" />
-          </svg>
           <label>새 메시지</label>
+          <svg viewBox="0 0 16 16">
+            <path d="M10 3v11M5 9l5 5l5-5" fill="none" stroke="white" stroke-width="1.5" />
+          </svg>
         </button>
       </transition>
     </div>
@@ -100,7 +101,7 @@ export default {
     async listChat() {
       const chats = await api.history.list(this.context)
       for(const chat of chats) {
-        if(this.chats[chat.chatId]?.loading)
+        if(this.chats[chat.chatId]?.waiting)
           continue
         this.$set(this.chats, chat.chatId, new Chat(chat))
       }
@@ -114,20 +115,31 @@ export default {
     },
     ///
     async ask(question) {
-      if(!this.currentChat) {
-        const chat = new Chat()
-        this.navigate('chat', {
-          chatId: null,
-          question
-        }, true)
-
-        const chatId = await chat.init(this.context)
-
-        this.$set(this.chats, chatId, chat)
-        this.navigate('chat', { chatId }, true)
+      let chat = this.currentChat
+      if(!chat) {
+        chat = new Chat()
+        this.$set(this.chats, null, chat)
+        this.navigate('chat', { chatId: null }, true)
       }
 
-      this.currentChat.ask(question, this.options.transport)
+      chat.prepare(question)
+
+      if(!chat.initiated)
+        await this.init()
+
+      chat.ask(null, this.options.transport)
+    },
+    async init(chat = this.currentChat) {
+      const chatId = await chat.init(this.context)
+
+      this.$set(this.chats, chatId, chat)
+      this.navigate('chat', { chatId }, true)
+      this.$delete(this.chats, null)
+    },
+    async retry() {
+      const chat = this.currentChat
+      await this.init(chat)
+      chat.ask(null, this.options.transport)
     },
     ///
     updateScrollPosition() {
@@ -346,16 +358,19 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   left: 0
 
   display: inline-block
-  width: 8em
+  width: 6.75em
 
   margin: 0 auto
   padding: 0.5em
   border-radius: 1em
 
+  font-weight: 700
   line-height: 1em
 
-  background: black
+  background: #000a
   color: white
+
+  backdrop-filter: blur(0.25em)
 
   > label
     font-size: 0.8125em

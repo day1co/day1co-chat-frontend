@@ -7,14 +7,21 @@ export default class Chat {
     this.chatId = chatId
     this.title = title ?? ''
     this.history = []
-    this.loading = true
+    this.status = 'loading'
+    this.context = ''
   }
 
-  async init(context) {
-    const payload = await api.history.create(context)
-    this.chatId = payload.chatId
-    this.loading = false
-    return payload.chatId
+  async init(context = this.context) {
+    this.context = context
+    try {
+      const payload = await api.history.create(context)
+      this.chatId = payload.chatId
+      this.status = ''
+      return payload.chatId
+    } catch(e) {
+      this.status = 'error'
+      throw e
+    }
   }
 
   async load() {
@@ -25,49 +32,74 @@ export default class Chat {
       ...h,
       feedback: h.feedback ?? null
     })))
-    this.loading = false
+    this.status = ''
   }
 
-  async ask(question, transport = 'xhr') {
+  prepare(question, override = {}) {
     const currentChat = {
       question,
       answer: '',
       messageId: null,
       feedback: '',
       ts: Date.now(),
-      incomplete: true
+      status: 'loading',
+      ...override
     }
     this.history.push(currentChat)
+    return currentChat
+  }
 
-    switch(transport) {
-      case 'sse':
-        const source = api.message.createEvent(this.chatId, question)
+  async ask(question = null, transport = 'xhr') {
+    if(question)
+      this.prepare(question)
 
-        source.addEventListener('message', event => {
-          currentChat.answer += ' ' + event.data
-          currentChat.ts = Date.now()
-        })
-        source.addEventListener('close', event => {
-          currentChat.messageId = event.data
-          currentChat.incomplete = false
-        })
+    const currentChat = this.history[this.history.length - 1]
+    console.log(JSON.stringify(this.history), currentChat.messageId)
 
-        source.stream()
-        break
+    try {
+      switch(transport) {
+        case 'sse':
+          const source = api.message.createEvent(this.chatId, question)
+          const promise = new Promise()
 
-      case 'xhr':
-      default:
-        const payload = await api.message.ask(this.chatId, question)
-        const { response, messageId } = payload
+          source.addEventListener('message', event => {
+            currentChat.answer += ' ' + event.data
+            currentChat.ts = Date.now()
+          })
+          source.addEventListener('close', event => {
+            currentChat.messageId = event.data
+            currentChat.status = ''
+            promise.resolve()
+          })
 
-        await mimicReply(response, word => {
-          currentChat.answer += ' ' + word
-        }, 50)
-        // keep this to feedback button hidden
-        currentChat.messageId = messageId
-        currentChat.incomplete = false
-        break
+          source.stream()
+          return promise
 
+        case 'xhr':
+        default:
+          const payload = await api.message.ask(this.chatId, question)
+          const { response, messageId } = payload
+
+          await mimicReply(response, word => {
+            currentChat.answer += ' ' + word
+          }, 50)
+          // keep this to feedback button hidden
+          currentChat.messageId = messageId
+          currentChat.status = ''
+          break
+      }
+    } catch(e) {
+      currentChat.status = 'error'
+      throw e
+    }
+  }
+
+  retry() {
+    if(this.history.length) {
+      const lastQuestion = (this.history.pop()).question
+      return this.ask(lastQuestion)
+    } else {
+      // ??
     }
   }
 
@@ -85,8 +117,11 @@ export default class Chat {
     return payload.feedback
   }
 
+  get initiated() {
+    return this.chatId != null
+  }
   get waiting() {
-    return this.history[this.history.length - 1]?.incomplete
+    return this.history[this.history.length - 1]?.status === 'loading'
   }
   get lastTimestamp() {
     return this.history[this.history.length - 1]?.ts

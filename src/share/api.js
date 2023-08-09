@@ -8,25 +8,30 @@ const api = (function() {
   let endpoint = '/.ai'
   let headers = DEFAULT_HEADERS
 
-  function wrappedFetch(uri, options = {}) {
+  async function wrappedFetch(uri, options = {}) {
     let _options = { ...options, headers }
     _options.headers = {
       ...headers,
       ...(options.headers ?? {})
     }
-    return fetch(endpoint + uri, _options)
-      .then(d => d.ok? d.json() : d)
-      .then(d => d?.data ?? d)
+    const f = await fetch(endpoint + uri, _options)
+    if(!f.ok)
+      throw new Error(`Network Error: ${f.status} ${f.statusText}`)
+    const d = await f.json()
+    if(d?.error)
+      throw new Error(`API Error: ${d.error}`)
+
+    return d?.data ?? d
   }
 
   return {
     setEndpoint(_endpoint) {
       endpoint = _endpoint ?? endpoint
     },
-    setHeaders(headers = {}) {
+    setHeaders(_headers = {}) {
       headers = {
         ...DEFAULT_HEADERS,
-        ...headers
+        ..._headers
       }
     },
     history: {
