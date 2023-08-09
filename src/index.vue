@@ -101,9 +101,10 @@ export default {
     async listChat() {
       const chats = await api.history.list(this.context)
       for(const chat of chats) {
-        if(this.chats[chat.chatId]?.waiting)
+        const id = chat.chatId ?? chat.conversationId
+        if(this.chats[id]?.waiting)
           continue
-        this.$set(this.chats, chat.chatId, new Chat(chat))
+        this.$set(this.chats, id, new Chat(chat))
       }
     },
     async openHistory(chatId) {

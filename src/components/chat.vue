@@ -49,7 +49,7 @@
 
       </template>
 
-      <li class="fcfc-chat-open-qna theirs" v-if="!lastError && !chat.status && !lastMessage.status && qnaLink">
+      <li class="fcfc-chat-open-qna theirs" v-if="!lastError && !chat?.status && !lastMessage?.status && qnaLink">
         <p class="label">
           더 궁금한 것이 있다면, 질의응답 게시판에서 질문해 보세요!
         </p>

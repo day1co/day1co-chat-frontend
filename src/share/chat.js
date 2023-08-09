@@ -3,12 +3,16 @@ import mimicReply from './mimic-reply'
 
 export default class Chat {
   //
-  constructor({ chatId, title } = {}) {
-    this.chatId = chatId
-    this.title = title ?? ''
+  constructor(chat = {}) {
+    this.initParams(chat)
     this.history = []
     this.status = 'loading'
     this.context = ''
+  }
+
+  initParams(payload) {
+    this.chatId = payload.chatId ?? payload.conversationId
+    this.title = (payload.title || payload.createdAt) ?? this.title
   }
 
   async init(context = this.context) {
@@ -16,8 +20,7 @@ export default class Chat {
     this.status = 'loading'
     try {
       const payload = await api.history.create(context)
-      this.chatId = payload.chatId ?? payload.conversationId
-      this.chatId = payload.title || payload.createdAt
+      this.initParams(payload)
       this.status = ''
       return payload.chatId
     } catch(e) {
@@ -29,11 +32,11 @@ export default class Chat {
   async load() {
     const payload = await api.history.get(this.chatId)
 
-    this.title = payload.title
-    this.history.push(...payload.history.map(h => ({
+    this.title = payload.title || payload.createdAt
+    this.history.push(...payload.history?.map(h => ({
       ...h,
       feedback: h.feedback ?? null
-    })))
+    })) ?? [])
     this.status = ''
   }
 
