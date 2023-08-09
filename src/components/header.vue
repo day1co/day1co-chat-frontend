@@ -34,6 +34,14 @@ export default {
   border-start-start-radius: inherit
   border-start-end-radius: inherit
 
+  &-logo
+    position: absolute
+    top: 1.5rem
+    left: 1rem
+
+    width: 2rem
+    height: 2rem
+
   &-line
     margin: 0
 
