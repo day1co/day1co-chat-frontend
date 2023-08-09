@@ -1,4 +1,4 @@
-$possible-themes: fastcampus, coloso, zerobase
+$possible-themes: fastcampus, fc-b2b, coloso, zerobase
 
 .fcfc-root
   --fcfc-background: #fff
@@ -28,10 +28,10 @@ $possible-themes: fastcampus, coloso, zerobase
 
     &.theme-#{$theme}
       // --fcfc-theme-accent
-      --fcfc-theme-header: url('../themes/#{$theme}/header.svg')
+      --fcfc-theme-header: url('@/themes/#{$theme}/header.svg')
 
       @if $theme == 'fc-b2b'
         $theme: 'fastcampus'
 
-      --fcfc-theme-logo: url('../themes/#{$theme}/logo.svg')
-      --fcfc-theme-chatbot-icon: url('../themes/#{$theme}/chatbot-icon.svg')
+      --fcfc-theme-logo: url('@/themes/#{$theme}/logo.svg')
+      --fcfc-theme-chatbot-icon: url('@/themes/#{$theme}/chatbot-icon.svg')
