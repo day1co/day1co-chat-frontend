@@ -1,5 +1,17 @@
 <template>
   <nav class="fcfc-nav">
+    <button class="fcfc-button fcfc-header-back1" @click="back">
+      <svg class="fcfc-icon" viewBox="0 0 24 24">
+        <path d="M14 6l-6 6l6 6"
+          fill="none"
+          stroke="white"
+          stroke-width="1.5"
+          stroke-linecap="round" />
+      </svg>
+    </button>
+    <label class="fcfc-nav-title">
+      새로운 질문
+    </label>
     <button class="fcfc-button fcfc-header-close" @click="close">
       <svg class="fcfc-icon" viewBox="0 0 24 24">
         <path d="M7 7l10 10M7 17l10-10"
@@ -16,6 +28,9 @@
 
 export default {
   methods: {
+    back() {
+      this.$root.navigate('')
+    },
     close() {
       this.$root.close()
     }
@@ -37,15 +52,28 @@ export default {
 
   padding: 1rem
 
+  color: white
   background-color: #000
 
   transition: background-color 500ms linear
 
   z-index: 1
 
+  > *
+    transition: opacity 500ms ease
+
+  &-title
+    font-size: 1rem
+    line-height: 1.5rem
+    font-weight: 700
+
+    margin-left: 0.5rem
+
   > .fcfc-button
     margin: -1rem
-    margin-left: auto
     padding: 1rem
+
+    &.fcfc-header-close
+      margin-left: auto
 
 </style>

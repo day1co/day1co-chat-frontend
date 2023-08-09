@@ -56,7 +56,10 @@ export default {
     close() {
       this.opened = false
     },
-    ask(question) {
+    navigate(to) {
+      this.route = to
+    },
+    ask(question) {,
       question = question.trim()
       if(!question)
         return
@@ -92,6 +95,9 @@ export default {
 .fcfc-route-main::v-deep
   > .fcfc-nav
     background-color: transparent
+
+    > *:not(.fcfc-header-close)
+      opacity: 0
 
   > .fcfc-content > .fcfc-header
     margin-top: -3.5rem
