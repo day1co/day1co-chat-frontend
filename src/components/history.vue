@@ -1,9 +1,9 @@
 <template>
   <ul class="fcfc-list fcfc-list-history">
     <li class="fcfc-list-label"> 질문 기록 </li>
-    <li class="fcfc-list-item" v-for="entry of history">
+    <li class="fcfc-list-item" v-for="entry of history" @click="$emit('submit', entry.question)">
       {{ entry.question }}
-      <button class="fcfc-list-action" @click="$emit('delete', entry.id)">
+      <button class="fcfc-list-action" @click.stop="$emit('delete', entry.id)">
         <img class="fcfc-icon" src="../images/trash.svg" />
       </button>
     </li>
