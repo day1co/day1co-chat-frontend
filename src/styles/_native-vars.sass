@@ -23,9 +23,9 @@ $possible-themes: fastcampus, fc-b2b, coloso, zerobase
   --fcfc-chat-section-border: #e6e8eb
 
   // themes
-  --fcfc-theme-header: url('@/themes/default/header.svg')
-  --fcfc-theme-logo: url('@/themes/default/logo.svg')
-  --fcfc-theme-chatbot-icon: url('@/themes/default/chatbot-icon.svg')
+  --fcfc-theme-header: url('@/themes/fastcampus/header.svg')
+  --fcfc-theme-logo: url('@/themes/fastcampus/logo.svg')
+  --fcfc-theme-chatbot-icon: url('@/themes/fastcampus/chatbot-icon.svg')
 
   &.theme-zerobase
     --fcfc-nav-background: #4a19da
@@ -41,8 +41,8 @@ $possible-themes: fastcampus, fc-b2b, coloso, zerobase
   @each $theme in $possible-themes
 
     &.theme-#{$theme}
-      // --fcfc-theme-accent
-      --fcfc-theme-header: url('@/themes/#{$theme}/header.svg')
+      $extension: if($theme == 'coloso', 'jpg', 'svg')
+      --fcfc-theme-header: url('@/themes/#{$theme}/header.#{$extension}')
 
       @if $theme == 'fc-b2b'
         $theme: 'fastcampus'
