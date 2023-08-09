@@ -56,7 +56,7 @@
       AI챗봇
     </button>
 
-    <div class="fcfc-dim" v-show="opened"></div>
+    <div class="fcfc-dim" v-show="opened" @click="close"></div>
   </div>
 </template>
 
