@@ -73,6 +73,11 @@ export default {
 
     margin-left: 0.5em
 
+    white-space: nowrap
+    word-break: keep-all
+    text-overflow: ellipsis
+    overflow: hidden
+
   > .fcfc-button
     margin: -1em
     padding: 1em
