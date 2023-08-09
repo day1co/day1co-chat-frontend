@@ -48,7 +48,7 @@ export default {
     },
     send() {
       this.$emit('submit', this.value)
-      this.value = ''
+      this.precompositiedValue = this.value = ''
     }
   }
 }
