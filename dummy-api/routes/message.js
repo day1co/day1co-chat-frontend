@@ -10,7 +10,7 @@ app.post('/', (req, res) => {
 
   const question = payload.question
   const chatid = payload.chatid
-  const msgid = Date.now().toString()
+  const messageId = Date.now().toString()
 
   console.log(payload)
 
@@ -31,7 +31,7 @@ app.post('/', (req, res) => {
     [])
 
   history[chatid]?.history.push({
-    msgid,
+    messageId,
     question,
     answer: match.response,
     feedback: null
@@ -40,7 +40,7 @@ app.post('/', (req, res) => {
   const timer = setInterval(() => {
     const word = words.shift()?.replaceAll(/[\r\n\t\v]/g, ' ')
     if(!word) {
-      res.write(`event: close\ndata: ${msgid}\n\n`)
+      res.write(`event: close\ndata: ${messageId}\n\n`)
       return clearTimeout(timer)
     }
     res.write(`data: ${word}\n\n`)
@@ -48,14 +48,14 @@ app.post('/', (req, res) => {
 
 })
 
-app.put('/:msgid', (req, res) => {
-  const msgid = req.params.msgid
+app.put('/:messageId', (req, res) => {
+  const messageId = req.params.messageId
   const feedback = req.body.feedback
 
   let chatid, index
   for(const _chatid in history) {
     const messages = history[_chatid]
-    const _index = messages.history.findIndex(_ => _.msgid === msgid)
+    const _index = messages.history.findIndex(_ => _.messageId === messageId)
     if(_index >= 0) {
       chatid = _chatid
       index = _index

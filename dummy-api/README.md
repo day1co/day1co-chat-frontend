@@ -3,7 +3,7 @@
 이 서버는 fixture 안에 있는 내용으로만 응답합니다.  
 테스트 이외에 사용하지 마시오.
 
-## 단어들
+## 개념
 
 * Chat: 대화.  
   사실 `conversation`이라고 부르던데 너무 길어서 효율상 축약하여 부름
@@ -23,7 +23,8 @@
   * `title`: String
   * `context`: 해당 대화의 Context
 
-주어진 Context로 대화 목록을 찾아옵니다.
+주어진 Context로 대화 목록을 찾아옵니다.  
+chatid 제외, Context의 키가 겹치는 것 중 내용 불일치가 없는 것을 찾아서 목록을 반환합니다.
 
 ### PUT `/history`
 
@@ -51,7 +52,7 @@
 * Return (HTTP)
   * 204
 
-요청한 대화를 삭제합니다. 응답은 안 봅니다.
+요청한 대화를 삭제합니다. 응답은 확인하지 않습니다.
 
 ## Messages
 
@@ -68,12 +69,13 @@
     * `data`: MessageID  
       아마도 이 ID를 피드백 보내는 데 사용하지 않을지…
 
-이미 존재하는 대화에 질문을 추가합니다.
+이미 존재하는 대화에 질문을 추가합니다.  
+질문 답변은 fixture/ 아래에 써있는대로 제멋대로 생성됩니다. 절대로 반드시 테스트로만 사용하십시오.
 
-### PUT `/:msgid`
+### PUT `/:messageId`
 
 * Params (URL)
-  * `msgid`: MessageID
+  * `messageId`: MessageID
 * Params (application/json as HTTP body)
   * `feedback`: String  
     Upstage API가 그냥 좋아요 싫어요를 `'like'` `'dislike'` 식으로 보내게 되어있길래 간단간단하게 대충

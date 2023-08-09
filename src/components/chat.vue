@@ -21,7 +21,7 @@
               { active: message.feedback === _feedback }
             ]"
             :title="label"
-            @click="feedback(message.msgid, _feedback)">
+            @click="feedback(message.messageId, _feedback)">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
               <path stroke-width="1" d="M9.2 20H7.3v-8.5l4.5-7.3.4-.3c.2 0 .5.2.6.5l.1 4.6c0 .3.3.5.5.5h6.2a.9.9 0 0 1 .9 1.1L18 19.4c-.1.4-.5.7-.9.7h-8ZM4 20a.5.5 0 0 1-.5-.4v-7.3c0-.3.2-.5.5-.5H5v8.3H4Z" />
             </svg>
@@ -65,8 +65,8 @@ export default {
     ]
   }),
   methods: {
-    async feedback(msgid, feedback) {
-      this.chat.feedback(msgid, feedback)
+    async feedback(messageId, feedback) {
+      this.chat.feedback(messageId, feedback)
     }
   },
   computed: {
