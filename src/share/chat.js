@@ -2,7 +2,7 @@ import api from './api'
 
 export default class Chat {
   //
-  constructor({ chatid, title }) {
+  constructor({ chatid, title } = {}) {
     this.chatid = chatid
     this.title = title ?? ''
     this.history = []
