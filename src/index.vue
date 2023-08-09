@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fcfc-root theme-coloso"
+    class="fcfc-root theme-zerobase"
     :style="{ '--y': scrollTop }">
     <div :class="[
       'fcfc-window',
@@ -49,7 +49,7 @@
 
     <button class="fcfc-fab-toggle" @click.prevent="toggle">
       <svg v-if="opened" viewBox="0 0 24 16" class="fcfc-fab-toggle-close">
-        <path d="M4 4l8 8l8-8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M4 4l8 8l8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       <template v-else>AI챗봇</template>
     </button>
@@ -349,8 +349,8 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   padding: 1em 0
   border-radius: 1.5em
 
-  color: #fff
-  background: #000
+  color: var(--fcfc-fab-foreground)
+  background: var(--fcfc-fab-background)
   box-shadow: 0 0.7em 1em #0003
 
   line-height: 1em

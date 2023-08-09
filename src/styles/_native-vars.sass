@@ -4,6 +4,8 @@ $possible-themes: fastcampus, fc-b2b, coloso, zerobase
   --fcfc-background: #fff
   --fcfc-foreground: #000
 
+  --fcfc-fab-background: #000
+  --fcfc-fab-foreground: #fff
   // --fcfc-history-hover:
 
   --fcfc-input-background: #f0f0f0
@@ -23,6 +25,11 @@ $possible-themes: fastcampus, fc-b2b, coloso, zerobase
   --fcfc-theme-header: url('@/themes/default/header.svg')
   --fcfc-theme-logo: url('@/themes/default/logo.svg')
   --fcfc-theme-chatbot-icon: url('@/themes/default/chatbot-icon.svg')
+
+  &.theme-zerobase, &.theme-coloso
+    --fcfc-fab-background: #fff
+    --fcfc-fab-foreground: #000
+
 
   @each $theme in $possible-themes
 
