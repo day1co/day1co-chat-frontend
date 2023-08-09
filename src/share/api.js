@@ -49,7 +49,8 @@ const api = (function() {
     },
     message: {
       createEvent(context, question) {
-        const source = new SSE('/message', {
+        const source = new SSE(endpoint + '/message', {
+          headers,
           payload: JSON.stringify({ question, context })
         })
         return source
