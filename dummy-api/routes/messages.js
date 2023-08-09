@@ -17,6 +17,15 @@ app.post('/:chatId', (req, res) => {
 
   console.log(payload)
 
+  if(/오류|에러|error|throw/i.test(question)) {
+    // res.status(418) // our API server don't throw 4xx even on error
+    return res.json({
+      error: {
+        status: 418,
+        message: 'THROW_REQUESTED'
+      }
+    })
+  }
   const { response } = knowledge(question)
   // split words, and then group with heading whitespace(s)
 
