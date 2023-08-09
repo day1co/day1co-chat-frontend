@@ -13,9 +13,11 @@ export default class Chat {
 
   async init(context = this.context) {
     this.context = context
+    this.status = 'loading'
     try {
       const payload = await api.history.create(context)
-      this.chatId = payload.chatId
+      this.chatId = payload.chatId ?? payload.conversationId
+      this.chatId = payload.title || payload.createdAt
       this.status = ''
       return payload.chatId
     } catch(e) {
@@ -50,16 +52,15 @@ export default class Chat {
   }
 
   async ask(question = null, transport = 'xhr') {
-    if(question)
+    if(question != null)
       this.prepare(question)
 
     const currentChat = this.history[this.history.length - 1]
-    console.log(JSON.stringify(this.history), currentChat.messageId)
 
     try {
       switch(transport) {
         case 'sse':
-          const source = api.message.createEvent(this.chatId, question)
+          const source = api.message.createEvent(this.chatId, currentChat.question)
           const promise = new Promise()
 
           source.addEventListener('message', event => {
@@ -77,7 +78,7 @@ export default class Chat {
 
         case 'xhr':
         default:
-          const payload = await api.message.ask(this.chatId, question)
+          const payload = await api.message.ask(this.chatId, currentChat.question)
           const { response, messageId } = payload
 
           await mimicReply(response, word => {
