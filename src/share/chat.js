@@ -63,21 +63,24 @@ export default class Chat {
     try {
       switch(transport) {
         case 'sse':
-          const source = api.message.createEvent(this.chatId, message.question)
-          const promise = new Promise()
+          return new Promise((resolve, reject) => {
+            const source = api.message.createEvent(this.chatId, message.question)
 
-          source.addEventListener('message', event => {
-            message.answer += ' ' + event.data
-            message.ts = Date.now()
-          })
-          source.addEventListener('close', event => {
-            message.messageId = event.data
-            message.status = ''
-            promise.resolve()
-          })
+            source.addEventListener('message', event => {
+              message.answer += ' ' + event.data
+              message.ts = Date.now()
+            })
+            source.addEventListener('close', event => {
+              message.messageId = event.data
+              message.status = ''
+              resolve()
+            })
+            source.addEventListener('error', event => {
+              reject(event)
+            })
 
-          source.stream()
-          return promise
+            source.stream()
+          })
 
         case 'xhr':
         default:
@@ -90,7 +93,7 @@ export default class Chat {
           // keep this to feedback button hidden
           message.messageId = messageId
           message.status = ''
-          break
+
       }
     } catch(e) {
       message.status = 'error'
