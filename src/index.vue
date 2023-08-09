@@ -388,7 +388,7 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
   &-close
     width: 1.5em
-    height: 1rem
+    height: 1em
     vertical-align: top
 
 </style>
