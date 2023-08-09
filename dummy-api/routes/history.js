@@ -75,6 +75,7 @@ app.get('/:chatId', (req, res) => {
     res.end()
     return
   }
+
   entry.history = fillAnswer(entry.history)
   res.json({ data: entry })
 })

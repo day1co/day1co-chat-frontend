@@ -1,5 +1,7 @@
 import { SSE } from 'sse.js'
 
+const AVAILABLE_TRANSPORT = new Set(['xhr', 'sse'])
+
 const api = (function() {
   let endpoint = '/.ai'
   let headers = {
@@ -49,14 +51,21 @@ const api = (function() {
     },
     message: {
       createEvent(chatId, question) {
-        const source = new SSE(endpoint + '/message', {
+        const source = new SSE(endpoint + `/messages/${chatId}?mode=sse`, {
+          method: 'POST',
           headers,
           payload: JSON.stringify({ chatId, question })
         })
         return source
       },
+      ask(chatId, question) {
+        return wrappedFetch(`/messages/${chatId}?mode=xhr`, {
+          method: 'POST',
+          body: JSON.stringify({ question })
+        })
+      },
       feedback(messageId, feedback) {
-        return wrappedFetch('/message/' + messageId, {
+        return wrappedFetch(`/messages/${chatId}/${messageId}`, {
           method: 'PUT',
           headers,
           body: JSON.stringify({ feedback })

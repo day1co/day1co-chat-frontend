@@ -87,7 +87,8 @@ export default {
     options: {
       qna: null,
       endpoint: null,
-      token: null
+      token: null,
+      transport: 'xhr'
     },
     context: {
       courseId: 200
@@ -121,7 +122,7 @@ export default {
         this.navigate('chat', { chatId }, true)
       }
 
-      this.currentChat.ask(question)
+      this.currentChat.ask(question, this.options.transport)
     },
     ///
     updateScrollPosition() {

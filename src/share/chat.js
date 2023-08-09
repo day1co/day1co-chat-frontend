@@ -1,4 +1,5 @@
 import api from './api'
+import mimicReply from './mimic-reply'
 
 export default class Chat {
   //
@@ -23,7 +24,7 @@ export default class Chat {
     this.loading = false
   }
 
-  ask(question) {
+  async ask(question, transport = 'xhr') {
     const currentChat = {
       question,
       answer: '',
@@ -31,20 +32,40 @@ export default class Chat {
       incomplete: true
     }
 
-    const source = api.message.createEvent(this.chatId, question)
+    switch(transport) {
+      case 'sse':
+        const source = api.message.createEvent(this.chatId, question)
 
-    source.addEventListener('message', event => {
-      currentChat.answer += ' ' + event.data
-      currentChat.ts = Date.now()
-    })
-    source.addEventListener('close', event => {
-      currentChat.messageId = event.data
-      currentChat.incomplete = false
-    })
+        source.addEventListener('message', event => {
+          currentChat.answer += ' ' + event.data
+          currentChat.ts = Date.now()
+        })
+        source.addEventListener('close', event => {
+          currentChat.messageId = event.data
+          currentChat.incomplete = false
+        })
 
-    source.stream()
+        source.stream()
 
-    this.history.push(currentChat)
+        this.history.push(currentChat)
+        break
+
+      case 'xhr':
+      default:
+        const payload = await api.message.ask(this.chatId, question)
+        const { response, messageId } = payload
+
+        this.history.push(currentChat)
+
+        await mimicReply(response, word => {
+          currentChat.answer += ' ' + word
+        }, 50)
+        // keep this to feedback button hidden
+        currentChat.messageId = messageId
+        currentChat.incomplete = false
+        break
+
+    }
   }
 
   delete() {

@@ -8,6 +8,10 @@
   </head>
   <body>
     <button id="open">열기/닫기</button>
+    <label>
+      <input type="checkbox" oninput="globalThis.chat.setOption('transport', value? 'sse' : 'xhr')" />
+      SSE 사용
+    </label>
     <div id="wrapper"></div>
     <script type="module">
 
