@@ -1,4 +1,6 @@
-[
+import fs from 'fs'
+
+const KNOWLEDGE = [
   {
     "keywords": [ "몬스터", "울트라", "시트라" ],
     "response": "몬스터 에너지 울트라 시트라! 이 이름은 특이하게 생긴 프랑스 자동차나 스칸디나비아 보드카에서 온 것은 아닙니다. 고대부터 유래된 과일 시트론에서 영감을 받아 태어난 이 제품은, 레몬과 비슷하지만 더 원초적이고 투박합니다. 마치 몬스터 에너지처럼요. 이 고대의 과일과 선조들에게서 영감을 얻은 우리는 전형적인 드링크를 새롭게 해석한 울트라 시트라를 만들었습니다. 울트라 시트라는 새콤달콤한 맛이 입 안에서 잔잔하게 퍼지며 상쾌한 맛으로 마무리하죠. 저칼로리에 무설탕이지만 몬스터 에너지만의 블렌드는 변함없이 가득 담겨있답니다."
@@ -130,3 +132,12 @@
     "response": "무슨 말인지 잘 모르겠네요!"
   }
 ]
+
+export default function searchKnowledge(question) {
+  const tokens = question.split(' ')
+  const matches = KNOWLEDGE.map(_ => ({
+    weight: tokens.reduce((p, c) => p + _.keywords.includes(c), 0),
+    ..._
+  }))
+  return matches.reduce((p, c) => p.weight > c.weight? p : c)
+}

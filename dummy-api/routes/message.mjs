@@ -1,6 +1,7 @@
 import express from 'express'
 
-import searchKnowledge from '../search-knowledge.mjs'
+import history from '../fixture/history.mjs'
+import knowledge from '../fixture/knowledge.mjs'
 
 const app = express()
 
@@ -19,7 +20,7 @@ app.post('/', (req, res) => {
   res.setHeader('connection', 'keep-alive')
   res.setHeader('Content-Type', 'text/event-stream')
 
-  const match = searchKnowledge(question)
+  const match = knowledge(question)
   // split words, and then group with heading whitespace(s)
   const words = match.response
     .split(/(\s+)/)

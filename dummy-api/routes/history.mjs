@@ -1,14 +1,13 @@
 import fs from 'fs'
 
-import searchKnowledge from '../search-knowledge.mjs'
+import history from '../fixture/history.mjs'
+import knowledge from '../fixture/knowledge.mjs'
 
 import express from 'express'
 import bodyParser from 'body-parser'
 
 const app = express()
 app.use(bodyParser.json())
-
-const history = JSON.parse(fs.readFileSync('./fixture/history.json'))
 
 const searchByContext = (query) =>
   Object
@@ -26,7 +25,7 @@ const searchByContext = (query) =>
 
 const fillAnswer = history => history.map(entry => ({
   question: entry.question,
-  answer: entry.answer ?? searchKnowledge(entry.question).response
+  answer: entry.answer ?? knowledge(entry.question).response
 }))
 
 //
