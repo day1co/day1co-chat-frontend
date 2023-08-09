@@ -13,6 +13,11 @@ app.use(bodyParser.json())
 
 ///
 
+app.use((req, res, next) => {
+  res.setHeader('access-control-allow-origin', '*')
+  next()
+})
+
 app.use('/history', history)
 app.use('/message', message)
 
