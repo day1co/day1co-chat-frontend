@@ -18,9 +18,25 @@
   <ul class="fcfc-list fcfc-list-history" v-else>
     <li class="fcfc-list-label"> 질문 기록 </li>
     <li class="fcfc-list-item" v-for="entry in history" @click="$emit('submit', entry.chatid)">
+      <svg class="fcfc-icon" viewBox="-4 -4 24 24">
+        <path
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M11.5,11.5h-2l-1.5,2-1.5-2h-2c-1.1,0-2-.9-2-2V4.5c0-1.1,.9-2,2-2h7c1.1,0,2,.9,2,2v5c0,1.1-.9,2-2,2Z"/>
+        <g fill="currentColor">
+          <circle cx="5.5" cy="7" r=".75"/>
+          <circle cx="8" cy="7" r=".75"/>
+          <circle cx="10.5" cy="7" r=".75"/>
+        </g>
+      </svg>
       <label> {{ entry.title }} </label>
       <button class="fcfc-list-action" @click.stop="$emit('delete', entry.chatid)">
-        <img class="fcfc-icon" src="../images/trash.svg" />
+        <svg class="fcfc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M8 11v6c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-6M14 10V8c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1v2M6 9.5h12M10.5 16v-4M13.5 16v-4" />
+        </svg>
       </button>
     </li>
   </ul>
@@ -51,20 +67,21 @@ export default {
 
   list-style: none
 
-  background: white
+  background: var(--fcfc-background)
 
   &-label
     font-size: 0.6875em
     line-height: 1.45em
 
-    color: #6e6e73
+    color: var(--fcfc-foreground)
+    opacity: 0.444444
 
   &-item
     @include clickable
 
     display: flex
     margin: 0.5em 0
-    padding: 0.75em
+    padding: 0.75em 0.75em 0.75em 0.5em
     border: 1px solid #e6e8eb
     border-radius: 0.375em
 
@@ -91,20 +108,14 @@ export default {
       height: 1.5em
 
   &-history
-
     .fcfc-list
-
       &-item
-        padding-left: 2em
-        background-image: url('../images/comment.svg')
-        background-repeat: no-repeat
-        background-size: 1.5em
-        background-position: 0.5em center
+        //
 
 .fcfc-history-empty
   padding: 1em
 
-  background: white
+  background: var(--fcfc-background)
 
 .fcfc-howto
 

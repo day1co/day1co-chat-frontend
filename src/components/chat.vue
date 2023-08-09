@@ -92,10 +92,11 @@ export default {
     > .ours
       text-align: right
       padding-right: 3em
+      background-color: var(--fcfc-chat-background-ours)
 
     > .theirs
       padding-left: 3em
-      background-color: #f3f3f3
+      background-color: var(--fcfc-chat-background-theirs)
 
   &-message
 
@@ -150,7 +151,7 @@ export default {
         transform: rotate(180deg)
 
   &-open-qna
-    border-top: 1px solid #e6e8eB
+    border-top: 1px solid var(--fcfc-chat-section-border)
     padding: 0.75em 1em 1.25em 1em
     line-height: 1em
 

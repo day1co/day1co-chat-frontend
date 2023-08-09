@@ -76,8 +76,8 @@ export default {
 
   padding: 1em 1em 1.5em 1em
 
-  box-shadow: 0 -1px 0 #f2f2f2
-  background: white
+  box-shadow: 0 -1px 0 var(--fcfc-input-border-inactive)
+  background: var(--fcfc-background)
 
   z-index: 2
 
@@ -114,8 +114,8 @@ export default {
       appearance: none
       border: none
 
-      box-shadow: 0 0 0 1px #e6e8eb inset
-      background-color: #f8f8f8
+      box-shadow: 0 0 0 1px var(--fcfc-input-border-inactive) inset
+      background-color: var(--fcfc-input-background)
 
       padding: 0.75em * 1.1428 3.25em * 1.1428 0.75em * 1.1428 1em * 1.1428
       margin: 0
@@ -127,10 +127,11 @@ export default {
 
       &:focus, &:focus-visible
         outline: none !important
-        box-shadow: 0 0 0 1px #444 inset
+        box-shadow: 0 0 0 1px var(--fcfc-input-border-active) inset
 
       &::-webkit-input-placeholder
         font-size: inherit
+        color: var(--fcfc-input-placeholder)
 
 
   &-send
@@ -141,7 +142,7 @@ export default {
     padding: 0.25em
     border-radius: 1em
 
-    background: #000 !important
+    background: var(--fcfc-input-button-active) !important
 
     transition: background 200ms ease
 
@@ -151,6 +152,6 @@ export default {
       height: 1.5em
 
     &.disabled
-      background: #d3d3d3 !important
+      background: var(--fcfc-input-button-inactive) !important
 
 </style>

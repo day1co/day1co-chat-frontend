@@ -254,7 +254,9 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   margin: 0 1.5em
   border-radius: 1.5em
 
-  background-color: #fff
+  color: var(--fcfc-foreground)
+
+  background-color: var(--fcfc-background)
   background-image: url('./images/header.svg')
   background-size: contain
   background-position: top
