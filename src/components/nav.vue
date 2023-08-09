@@ -52,9 +52,9 @@ export default {
   display: flex
 
   width: 100%
-  height: 3.5rem
+  height: 3.5em
 
-  padding: 1rem
+  padding: 1em
 
   color: white
   background-color: #000
@@ -67,17 +67,21 @@ export default {
     // transition: opacity 500ms ease
 
   &-title
-    font-size: 1rem
-    line-height: 1.5rem
+    font-size: 1em
+    line-height: 1.5em
     font-weight: 700
 
-    margin-left: 0.5rem
+    margin-left: 0.5em
 
   > .fcfc-button
-    margin: -1rem
-    padding: 1rem
+    margin: -1em
+    padding: 1em
 
     &.fcfc-nav-close
       margin-left: auto
+
+    > svg
+      width: 1.5em
+      height: 1.5em
 
 </style>

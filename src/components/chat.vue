@@ -6,10 +6,10 @@
       </li>
       <template v-for="(message, index) in chat.history">
         <li class="fcfc-chat-message ours">
-          {{ message.question }}
+          <span>{{ message.question }}</span>
         </li>
         <li class="fcfc-chat-message theirs">
-          {{ message.answer }}
+          <span>{{ message.answer }}</span>
           <img v-if="message.incomplete" class="fcfc-chat-loading" src="../images/loading.svg" />
         </li>
         <li class="fcfc-chat-feedback theirs">
@@ -87,45 +87,47 @@ export default {
 
   &-list
     margin: 0
-    padding: 1.5rem 0 0 0
+    padding: 1.5em 0 0 0
 
     > .ours
       text-align: right
-      padding-right: 3rem
+      padding-right: 3em
 
     > .theirs
-      padding-left: 3rem
+      padding-left: 3em
       background-color: #f3f3f3
 
   &-message
-    font-size: 0.875rem
-    line-height: 1.5rem
 
-    padding: 1.25rem 1rem
+    padding: 1.25em 1em
 
-    background-position-y: 1.25rem
-    background-size: 1.5rem
+    background-position-y: 1.25em
+    background-size: 1.5em
     background-repeat: no-repeat
+
+    > span
+      font-size: 0.875em
+      line-height: 1.7142em
 
     &.ours
       background-image: url('../images/profile-ours.svg')
-      background-position-x: calc(100% - 1rem)
+      background-position-x: calc(100% - 1em)
 
     &.theirs
       background-image: url('../images/profile-theirs.svg')
-      background-position-x: 1rem
+      background-position-x: 1em
 
   &-feedback
     display: flex
     justify-content: flex-end
-    gap: 0.5rem
+    gap: 0.5em
 
-    margin-top: -0.75rem
-    padding: 0 1rem 1.25rem 1rem
+    margin-top: -0.75em
+    padding: 0 1em 1.25em 1em
 
     &-button
-      width: 1.5rem
-      height: 1.5rem
+      width: 1.5em
+      height: 1.5em
       padding: 0
 
       color: #aaa
@@ -148,28 +150,28 @@ export default {
 
   &-open-qna
     border-top: 1px solid #e6e8eB
-    padding: 0.75rem 1rem 1.25rem 1rem
+    padding: 0.75em 1em 1.25em 1em
 
     > p
-      font-size: 0.6875rem
-      line-height: 1rem
-      margin: 0 0 0.375rem 0
+      font-size: 0.6875em
+      line-height: 1.4545em
+      margin: 0 0 0.5454em 0
 
     > a
-      font-size: 0.8125rem
-      line-height: 1.5rem
+      font-size: 0.8125em
+      line-height: 1.85em
 
       color: #ed234b
       text-decoration: none
 
       > svg
-        width: 1rem
-        vertical-align: -0.25rem
+        width: 1.23em
+        vertical-align: -0.25em
 
 
   &-loading
-    width: 1.5rem
-    height: 1.375rem
+    width: 1.5em
+    height: 1.375em
     vertical-align: top
 
 </style>

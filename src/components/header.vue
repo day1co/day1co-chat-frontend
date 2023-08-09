@@ -21,32 +21,32 @@ export default {}
   display: flex
   flex-direction: row
   align-items: flex-end
-  height: 12rem
+  height: 12em
 
-  padding: 1.5rem
+  padding: 1.5em
 
   border-start-start-radius: inherit
   border-start-end-radius: inherit
 
   &-logo
     position: absolute
-    top: 1.5rem
-    left: 1rem
+    top: 1.5em
+    left: 1em
 
-    width: 2rem
-    height: 2rem
+    width: 2em
+    height: 2em
 
   &-line
     margin: 0
 
-    font-size: 1.25rem
-    line-height: 1.75rem
+    font-size: 1.25em
+    line-height: 1.4em
     font-weight: bold
     color: #fff
 
   &-close
     position: absolute
-    top: 1rem
-    right: 1rem
+    top: 1em
+    right: 1em
 
 </style>

@@ -18,7 +18,7 @@
   <ul class="fcfc-list fcfc-list-history" v-else>
     <li class="fcfc-list-label"> 질문 기록 </li>
     <li class="fcfc-list-item" v-for="entry in history" @click="$emit('submit', entry.chatid)">
-      {{ entry.title }}
+      <label> {{ entry.title }} </label>
       <button class="fcfc-list-action" @click.stop="$emit('delete', entry.chatid)">
         <img class="fcfc-icon" src="../images/trash.svg" />
       </button>
@@ -47,15 +47,15 @@ export default {
 
 .fcfc-list
   margin: 0
-  padding: 1rem 1rem
+  padding: 1em 1em
 
   list-style: none
 
   background: white
 
   &-label
-    font-size: 0.6875rem
-    line-height: 1rem
+    font-size: 0.6875em
+    line-height: 1.45em
 
     color: #6e6e73
 
@@ -63,15 +63,16 @@ export default {
     @include clickable
 
     display: flex
-    margin: 0.5rem 0
-    padding: 0.75rem
+    margin: 0.5em 0
+    padding: 0.75em
     border: 1px solid #e6e8eb
-    border-radius: 0.375rem
+    border-radius: 0.375em
 
-    font-size: 0.8125rem
-    line-height: 1.5rem
+    box-shadow: 0 0.2em 0.5em #202a4514
 
-    box-shadow: 0 0.2rem 0.5rem #202a4514
+    > label
+      font-size: 0.8125em
+      line-height: 1.85em
 
   &-flat > &-item
     background: #f2f2f2
@@ -82,41 +83,45 @@ export default {
     line-height: 0
 
   &-action
-    margin: -0.875rem -0.875rem -0.875rem auto
-    padding: 0.75rem 0.75rem 0.75rem 0.25rem
+    margin: -0.875em -0.875em -0.875em auto
+    padding: 0.75em 0.75em 0.75em 0.25em
+
+    > svg
+      width: 1.5em
+      height: 1.5em
 
   &-history
 
     .fcfc-list
 
       &-item
-        padding-left: 2rem
+        padding-left: 2em
         background-image: url('../images/comment.svg')
         background-repeat: no-repeat
-        background-size: 1.5rem
-        background-position: 0.5rem center
+        background-size: 1.5em
+        background-position: 0.5em center
 
 .fcfc-history-empty
-  padding: 1rem
+  padding: 1em
 
   background: white
 
 .fcfc-howto
 
   &-title
-    margin: 0.5rem 0
-    font-size: 0.8125rem
-    line-height: 1.5rem
+    margin: 0.616rem 0
+    font-size: 0.8125em
+    line-height: 1.85em
 
   &-image
     @include unselectable
 
     position: relative
-    margin: 0.5rem 0
+    margin: 0.5em 0
 
     > img
       width: 100%
-      border-radius: 0.25rem
+      border-radius: 0.25em
 
     > figcaption
       display: flex
@@ -129,19 +134,19 @@ export default {
       bottom: 0
       left: 0
       margin: auto
-      padding: 0.5rem
+      padding: 0.444em
 
       width: 100%
       height: 100%
 
       color: white
-      font-size: 1.125rem
-      line-height: 2.75rem
+      font-size: 1.125em
+      line-height: 2.444em
       font-weight: bold
 
   &-text
     color: #6e6e73
-    font-size: 0.75rem
-    line-height: 1.25rem
+    font-size: 0.75em
+    line-height: 1.666em
 
 </style>

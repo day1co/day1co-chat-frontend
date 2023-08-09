@@ -66,13 +66,15 @@ export default {
 
 <style lang="sass">
 
+@use 'sass:math'
+
 .fcfc-input
   position: sticky
   bottom: 0
 
   width: 100%
 
-  padding: 1rem 1rem 1.5rem 1rem
+  padding: 1em 1em 1.5em 1em
 
   box-shadow: 0 -1px 0 #f2f2f2
   background: white
@@ -88,10 +90,6 @@ export default {
     align-items: center
     position: relative
 
-    font-size: 0.875rem
-    line-height: 1.5rem
-
-
     transition: box-shadow 200ms ease
 
     &::after
@@ -102,11 +100,14 @@ export default {
     &::after, > textarea
       box-sizing: border-box
       width: 100%
-      min-width: 1em
+      min-width: 1em * 1.1428
       height: 100%
-      max-height: 6rem
+      max-height: 6em * 1.1428
       grid-area: 1 / 1
+
       font: inherit
+      font-size: 0.875em
+      line-height: 1.5em * 1.1428
 
       resize: none
       background: none
@@ -116,9 +117,9 @@ export default {
       box-shadow: 0 0 0 1px #e6e8eb inset
       background-color: #f8f8f8
 
-      padding: 0.75rem 3.25rem 0.75rem 1rem
+      padding: 0.75em * 1.1428 3.25em * 1.1428 0.75em * 1.1428 1em * 1.1428
       margin: 0
-      border-radius: 1.5rem
+      border-radius: 1.5em * 1.1428
 
       transition: box-shadow 200ms ease
 
@@ -130,11 +131,11 @@ export default {
 
   &-send
     position: absolute
-    right: 0.5rem
-    bottom: 0.5rem
+    right: 0.5em
+    bottom: 0.5em
 
-    padding: 0.25rem
-    border-radius: 1rem
+    padding: 0.25em
+    border-radius: 1em
 
     background: #000 !important
 
@@ -142,6 +143,8 @@ export default {
 
     > svg
       vertical-align: top
+      width: 1.5em
+      height: 1.5em
 
     &.disabled
       background: #d3d3d3 !important
