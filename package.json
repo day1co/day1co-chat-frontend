@@ -8,12 +8,16 @@
     "url": "https://github.com/day1co/day1co-chat-fe.git"
   },
   "files": [
-    "dist"
+    "dist",
+    "dummy-api"
   ],
   "exports": {
     ".": {
       "import": "./dist/classroom.mjs",
       "require": "./dist/classroom.js"
+    },
+    "./dummy-api": {
+      "import": "./dummy-api/index.mjs"
     }
   },
   "scripts": {
@@ -22,17 +26,14 @@
     "clean": "rimraf ./dist ./node_modules"
   },
   "dependencies": {
-    "socket.io-client": "^4.6.1",
+    "express": "^4.18.2",
     "sse.js": "^0.6.1",
     "vue": "^2.7.14"
   },
   "devDependencies": {
     "@vitejs/plugin-vue2": "^2.2.0",
     "body-parser": "^1.20.2",
-    "express": "^4.18.2",
     "sass": "^1.60.0",
-    "socket.io": "^4.6.1",
-    "sse": "^0.0.8",
     "vite": "^4.2.1"
   }
 }

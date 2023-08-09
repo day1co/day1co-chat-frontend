@@ -1,5 +1,4 @@
-import http from 'http'
-import fs from 'fs'
+import * as url from 'node:url'
 
 import express from 'express'
 import { Server } from 'socket.io'
@@ -23,4 +22,11 @@ app.use('/message', message)
 
 ///
 
-app.listen(8012)
+if(import.meta.url.startsWith('file:')) {
+  const modulePath = url.fileURLToPath(import.meta.url)
+  if (process.argv[1] === modulePath) {
+    app.listen(8012)
+  }
+}
+
+export default app
