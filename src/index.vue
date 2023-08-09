@@ -51,6 +51,11 @@
         </button>
       </transition>
     </div>
+
+    <button class="fcfc-fab-toggle" @click.prevent="toggle">
+      AI챗봇
+    </button>
+
     <div class="fcfc-dim" v-show="opened"></div>
   </div>
 </template>
@@ -217,6 +222,22 @@ $bp: 96
 $scale: "(var(--y) / #{$bp})"
 $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
 
+.fcfc-root
+  position: fixed
+  right: 0
+  bottom: 0
+
+  display: flex
+  flex-direction: column
+  align-items: flex-end
+  justify-content: flex-end
+
+  font-family: Pretendard, sans-serif
+
+  max-height: 100%
+
+  z-index: 100000
+
 .fcfc-window
   display: flex
   flex-direction: column
@@ -226,9 +247,9 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   width: 21.25rem
   height: 100%
 
+  margin: 0 1.5rem
   border-radius: 1.5rem
 
-  font-family: Pretendard, sans-serif
 
   background-color: #fff
   background-image: url('./images/header.svg')
@@ -239,6 +260,7 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   box-shadow: 0 0.75rem 1rem rgba(0, 0, 0, 0.2)
 
   overflow: hidden
+  z-index: 2
 
 .fcfc-route-main::v-deep
   > .fcfc-nav
@@ -309,5 +331,21 @@ $rscale: "(1 - var(--y) / #{$bp})" // sass sucks
   top: max(1rem, min(2rem, calc(1rem + #{$rscale} * 1rem)))
   left: max(1rem, min(1.5rem, calc(1rem + #{$rscale} * 0.5rem)))
   width: max(1.5rem, min(2rem, calc(1.5rem + #{$rscale} * 0.5rem)))
+
+.fcfc-fab-toggle
+  width: 7rem
+  margin: 1rem 1.5rem 1.5rem auto
+  padding: 1rem 0
+  border-radius: 1.5rem
+
+  color: #fff
+  background: #000
+  box-shadow: 0 0.7rem 1rem #0003
+
+  line-height: 1rem
+  text-align: center
+  font-weight: 700
+
+  z-index: 1
 
 </style>
