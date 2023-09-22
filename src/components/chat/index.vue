@@ -27,7 +27,15 @@
 
         <template v-else>
           <li class="fcfc-chat-message theirs">
-            <component :is="getComponent(message.answer)" :content="message.answer" />
+            <component
+              v-if="Array.isArray(message.answer)"
+              v-for="answer in message.answer"
+              :is="getComponent(answer)"
+              :content="answer.content ?? answer" />
+            <component
+              v-else
+              :is="getComponent(message.answer)"
+              :content="message.answer" />
 
             <img v-if="message.status === 'loading'" class="fcfc-chat-loading" src="../../images/loading.svg" />
           </li>
