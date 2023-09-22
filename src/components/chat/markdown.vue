@@ -22,6 +22,24 @@ export default {
 <style lang="sass">
 
 .fcfc-chat-content-markdown
-  margin-top: -1em
+
+  > *:first-child
+    margin-top: 0
+
+  > *:last-child
+    margin-bottom: 0
+
+  > ul, > ol
+    margin-left: -1em
+
+  ul, ol
+    padding-left: 1em
+
+  li
+    list-style: initial !important
+    margin: 0
+
+  li > p:first-child
+    margin: 0
 
 </style>
