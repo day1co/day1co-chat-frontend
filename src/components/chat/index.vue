@@ -114,6 +114,7 @@ export default {
     getComponent(answer) {
       switch(answer.type) {
         case 'links':
+        case 'carousel':
           return FcfcChatLinks
         case 'markdown':
           return FcfcChatMarkdown

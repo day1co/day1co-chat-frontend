@@ -21,8 +21,7 @@
           v-show="!route.path"
           :history="chats"
           @submit="openHistory"
-          @delete="deleteHistory"
-          />
+          @delete="deleteHistory" />
         <fcfc-chat
           v-show="route.path === 'chat'"
           v-if="currentChat"

@@ -28,6 +28,11 @@ export default async (data, message, interval = 100) => {
   message.answer = []
 
   for(const block of data) {
+    if(block.contents?.length === 0) {
+      message.answer.pop()
+      break
+    }
+
     const result = {
       type: block.type,
       content: null
@@ -36,13 +41,15 @@ export default async (data, message, interval = 100) => {
 
     switch(block.type) {
       case 'links':
+      case 'carousel':
+
         result.content = []
-        await shiftInterval(block.content, chunk => result.content.push(chunk), interval * 4)
+        await shiftInterval(block.contents, chunk => result.content.push(chunk), interval * 4)
         break
       case 'markdown':
       case 'text':
         result.content = ''
-        await splitMessageOverTime(block.content, message => result.content += message, interval)
+        await splitMessageOverTime(block.contents, message => result.content += message, interval)
         break
     }
   }

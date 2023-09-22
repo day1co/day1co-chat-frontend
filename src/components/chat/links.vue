@@ -2,10 +2,10 @@
   <ul class="fcfc-chat-content fcfc-chat-content-links">
     <li v-for="link in content">
       <figure>
-        <img :src="link.href" />
+        <img :src="link.href ?? link.uri" />
         <figcaption>
-          <h5> {{ link.title }} </h5>
-          <p> {{ link.href }} </p>
+          <h5> {{ link.title ?? link.text }} </h5>
+          <p> {{ link.href ?? link.uri }} </p>
         </figcaption>
       </figure>
     </li>
