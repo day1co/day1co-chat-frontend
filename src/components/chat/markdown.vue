@@ -18,3 +18,10 @@ export default {
 }
 
 </script>
+
+<style lang="sass">
+
+.fcfc-chat-content-markdown
+  margin-top: -1em
+
+</style>

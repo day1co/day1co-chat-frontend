@@ -92,7 +92,6 @@ export default class Chat {
           // keep this to feedback button hidden
           message.messageId = messageId
           message.status = ''
-
       }
     } catch(e) {
       message.status = 'error'
