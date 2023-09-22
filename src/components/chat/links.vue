@@ -37,8 +37,11 @@ export default {
   scroll-snap-align: center
   scroll-snap-type: x mandatory
 
+  > li
+    width: 100%
+
   figure
-    min-width: 16em
+    width: 100%
     margin: 0.5em
 
     background: white
@@ -51,13 +54,20 @@ export default {
       object-fit: cover
 
     > figcaption
+      width: 100%
       padding: 0 0.5em 0.5em 0.5em
       line-height: 1.25em
+
 
       > h5, > p
         font-weight: inherit
         font-size: 0.875em
         margin: 0
+
+        white-space: nowrap
+        word-break: keep-all
+        overflow-x: hidden
+        text-overflow: ellipsis
 
       > p
         color: #0009
