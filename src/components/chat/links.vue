@@ -16,7 +16,7 @@
 
 export default {
   props: {
-    content: String
+    content: Array
   }
 }
 
