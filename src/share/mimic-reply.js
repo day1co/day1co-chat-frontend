@@ -34,7 +34,7 @@ export default async (data, message, interval = 100) => {
 
     const result = {
       type: block.type,
-      content: null
+      contents: null
     }
     message.answer.push(result)
 
@@ -42,13 +42,13 @@ export default async (data, message, interval = 100) => {
       case 'links':
       case 'carousel':
 
-        result.content = []
-        await shiftInterval(block.contents, chunk => result.content.push(chunk), interval * 4)
+        result.contents = []
+        await shiftInterval(block.contents, chunk => result.contents.push(chunk), interval * 4)
         break
       case 'markdown':
       case 'text':
-        result.content = ''
-        await splitMessageOverTime(block.contents, message => result.content += message, interval)
+        result.contents = ''
+        await splitMessageOverTime(block.contents, message => result.contents += message, interval)
         break
     }
   }

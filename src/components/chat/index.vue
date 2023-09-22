@@ -31,7 +31,7 @@
               v-if="Array.isArray(message.answer)"
               v-for="answer in message.answer"
               :is="getComponent(answer)"
-              :content="answer.content ?? answer" />
+              :content="answer.contents ?? answer" />
             <component
               v-else
               :is="getComponent(message.answer)"

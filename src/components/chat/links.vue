@@ -1,12 +1,12 @@
 <template>
   <ul class="fcfc-chat-content fcfc-chat-content-links">
     <li v-for="link in content">
-      <a :href="link.href ?? link.uri">
+      <a :href="getLink(link)" target="_blank">
         <figure>
           <img v-if="link.href ?? link.uri" :src="link.href ?? link.uri" />
           <figcaption>
             <h5> {{ link.title ?? link.text }} </h5>
-            <p> {{ link.href ?? link.uri }} </p>
+            <p> {{ getLink(link) }} </p>
           </figcaption>
         </figure>
       </a>
@@ -19,6 +19,11 @@
 export default {
   props: {
     content: Array
+  },
+  methods: {
+    getLink(item) {
+      return item.href ?? item.url ?? item.actions?.[0]?.uri
+    }
   }
 }
 

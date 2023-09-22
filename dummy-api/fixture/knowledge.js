@@ -10,7 +10,19 @@ const KNOWLEDGE = [
       },
       {
         "type": "carousel",
-        "contents": []
+        "contents": [
+          {
+            "title": "Reference_1",
+            "description": "Answer Reference",
+            "actions": [
+              {
+                "text": "Go to Reference",
+                "type": "link",
+                "uri": "https://www.monsterenergy.com/ko-kr/"
+              }
+            ]
+          }
+        ]
       }
     ]
   }, {
