@@ -39,6 +39,7 @@ export default {
   overflow-x: auto
   scroll-snap-align: center
   scroll-snap-type: x mandatory
+  user-select: none
 
   > li
     width: 80%
