@@ -27,7 +27,9 @@ const sanitizeOptions = {
 }
 
 export default function renderMarkdown(string) {
-  const rendered = marked(string)
+  const rendered = marked(string, {
+    headerIds: false
+  })
   const sanitized = DOMPurify.sanitize(rendered, sanitizeOptions)
   return sanitized
 }
