@@ -1,13 +1,15 @@
 <template>
   <ul class="fcfc-chat-content fcfc-chat-content-links">
     <li v-for="link in content">
-      <figure>
-        <img :src="link.href ?? link.uri" />
-        <figcaption>
-          <h5> {{ link.title ?? link.text }} </h5>
-          <p> {{ link.href ?? link.uri }} </p>
-        </figcaption>
-      </figure>
+      <a :href="link.href ?? link.uri">
+        <figure>
+          <img :src="link.href ?? link.uri" />
+          <figcaption>
+            <h5> {{ link.title ?? link.text }} </h5>
+            <p> {{ link.href ?? link.uri }} </p>
+          </figcaption>
+        </figure>
+      </a>
     </li>
   </ul>
 </template>
@@ -33,15 +35,20 @@ export default {
   margin: 0 -1em 0 -3em
   padding: 0 0.5em 0 2.5em
 
-  overflow-x: scroll
+  overflow-x: auto
   scroll-snap-align: center
   scroll-snap-type: x mandatory
 
   > li
-    width: 100%
+    width: 80%
+    max-width: 36em
+
+    > a
+      color: inherit
+      text-decoration: none
 
   figure
-    width: 100%
+    width: calc(100% - 1em)
     margin: 0.5em
 
     background: white
