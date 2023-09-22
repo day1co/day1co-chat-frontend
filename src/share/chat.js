@@ -87,7 +87,6 @@ export default class Chat {
           const payload = await api.message.ask(this.chatId, message.question)
           const { response, messageId } = payload
 
-          message.answer = []
           await mimicReply(response, message, 50)
           // keep this to feedback button hidden
           message.messageId = messageId

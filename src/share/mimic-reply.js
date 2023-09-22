@@ -29,7 +29,6 @@ export default async (data, message, interval = 100) => {
 
   for(const block of data) {
     if(block.contents?.length === 0) {
-      message.answer.pop()
       break
     }
 

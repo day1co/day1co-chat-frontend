@@ -10,14 +10,7 @@ const KNOWLEDGE = [
       },
       {
         "type": "carousel",
-        "contents": [
-          {
-            "thumbnail": "https://place-hold.it/320x180",
-            "title": "몬스터 에너지",
-            "type": "link",
-            "uri": "https://www.monsterenergy.com/ko-kr/"
-          }
-        ]
+        "contents": []
       }
     ]
   }, {
