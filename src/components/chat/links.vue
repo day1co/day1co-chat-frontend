@@ -3,7 +3,7 @@
     <li v-for="link in content">
       <a :href="link.href ?? link.uri">
         <figure>
-          <img :src="link.href ?? link.uri" />
+          <img v-if="link.href ?? link.uri" :src="link.href ?? link.uri" />
           <figcaption>
             <h5> {{ link.title ?? link.text }} </h5>
             <p> {{ link.href ?? link.uri }} </p>
@@ -30,6 +30,7 @@ export default {
 
 .fcfc-chat-content-links
   display: flex
+  align-items: flex-end
   list-style: none
 
   margin: 0 -1em 0 -3em
@@ -60,9 +61,12 @@ export default {
       height: 6em
       object-fit: cover
 
+      + figcaption
+        margin-top: -0.5em
+
     > figcaption
       width: 100%
-      padding: 0 0.5em 0.5em 0.5em
+      padding: 0.5em
       line-height: 1.25em
 
 
