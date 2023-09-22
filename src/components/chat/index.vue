@@ -2,7 +2,7 @@
   <div class="fcfc-chat">
     <ul class="fcfc-chat-list">
       <li class="fcfc-chat-history-loading" v-if="chat.status === 'loading'">
-        <img class="fcfc-chat-loading" src="../images/loading.svg" />
+        <img class="fcfc-chat-loading" src="../../images/loading.svg" />
       </li>
 
       <li class="fcfc-chat-error theirs" v-else-if="chat.status === 'error'">
@@ -15,7 +15,7 @@
       <template v-for="message in chat.history" v-else>
 
         <li class="fcfc-chat-message ours">
-          <span>{{ message.question }}</span>
+          <span class="fcfc-chat-content">{{ message.question }}</span>
         </li>
 
         <li class="fcfc-chat-error theirs" v-if="message.status === 'error'">
@@ -27,8 +27,9 @@
 
         <template v-else>
           <li class="fcfc-chat-message theirs">
-            <span>{{ message.answer }}</span>
-            <img v-if="message.status === 'loading'" class="fcfc-chat-loading" src="../images/loading.svg" />
+            <component :is="getComponent(message.answer)" :content="message.answer" />
+
+            <img v-if="message.status === 'loading'" class="fcfc-chat-loading" src="../../images/loading.svg" />
           </li>
 
           <li class="fcfc-chat-feedback theirs" v-if="!message.status">
@@ -73,7 +74,11 @@
 
 <script>
 
-import Chat from '../share/chat.js'
+import Chat from '../../share/chat.js'
+
+import FcfcChatText from './text.vue'
+import FcfcChatLinks from './links.vue'
+import FcfcChatMarkdown from './markdown.vue'
 
 export default {
   props: {
@@ -97,6 +102,16 @@ export default {
     async feedback(message, feedback) {
       if(!message.feedback)
         this.chat.feedback(message.messageId, feedback)
+    },
+    getComponent(answer) {
+      switch(answer.type) {
+        case 'links':
+          return FcfcChatLinks
+        case 'markdown':
+          return FcfcChatMarkdown
+        default:
+          return FcfcChatMarkdown
+      }
     }
   },
   computed: {
@@ -108,8 +123,8 @@ export default {
 
 </script>
 
-<style lang="sass" scoped>
-@import ../styles/variables
+<style lang="sass">
+@import ../../styles/variables
 
 .fcfc-chat
   min-height: 100%
@@ -138,15 +153,18 @@ export default {
     background-size: 1.5em
     background-repeat: no-repeat
 
-    > span
+    > .fcfc-chat-content
       font-size: 0.875em
+
+      ul, ol
+        padding-left: 1em
 
       @include media('mobile')
         font-size: 1em
         line-height: 1.75em
 
     &.ours
-      background-image: url('../images/profile-ours.svg')
+      background-image: url('../../images/profile-ours.svg')
       background-position-x: calc(100% - 1em)
 
     &.theirs
@@ -164,7 +182,7 @@ export default {
     line-height: 1.5em
 
     background-color: #fff3f6
-    background-image: url('../images/alert.svg')
+    background-image: url('../../images/alert.svg')
     background-size: 1.5em
     background-position: 1em 0.75em
     background-repeat: no-repeat
@@ -178,7 +196,7 @@ export default {
       margin-left: auto
       padding-right: 1.25em
 
-      background-image: url('../images/retry.svg')
+      background-image: url('../../images/retry.svg')
       background-size: 1em 1.5em
       background-position: right center
       background-repeat: no-repeat

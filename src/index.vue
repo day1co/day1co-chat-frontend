@@ -65,7 +65,7 @@ import FcfcNav from './components/nav.vue'
 import FcfcHeader from './components/header.vue'
 import FcfcHistory from './components/history.vue'
 import FcfcInput from './components/input.vue'
-import FcfcChat from './components/chat.vue'
+import FcfcChat from './components/chat/index.vue'
 
 import api from './share/api.js'
 import Chat from './share/chat.js'
